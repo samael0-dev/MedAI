@@ -1,0 +1,61 @@
+# Environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Database
+*.db
+*.sqlite3
+
+# Uploads & model weights (large files)
+backend/uploads/
+backend/ml/weights/*.pth
+backend/ml/weights/*.pt
+backend/ml/weights/*.onnx
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+
+# Test
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Sample data (large files)
+data/sample_scans/*.dcm
+data/sample_scans/*.nii
+data/sample_scans/*.nii.gz

@@ -1,0 +1,151 @@
+{
+  "drugs": [
+    {"id": 1, "name": "Warfarin", "generic_name": "warfarin sodium", "drug_class": "Anticoagulant", "rxcui": "11289"},
+    {"id": 2, "name": "Aspirin", "generic_name": "acetylsalicylic acid", "drug_class": "NSAID/Antiplatelet", "rxcui": "1191"},
+    {"id": 3, "name": "Metformin", "generic_name": "metformin hydrochloride", "drug_class": "Biguanide", "rxcui": "6809"},
+    {"id": 4, "name": "Lisinopril", "generic_name": "lisinopril", "drug_class": "ACE Inhibitor", "rxcui": "29046"},
+    {"id": 5, "name": "Atorvastatin", "generic_name": "atorvastatin calcium", "drug_class": "Statin", "rxcui": "83367"},
+    {"id": 6, "name": "Amoxicillin", "generic_name": "amoxicillin", "drug_class": "Penicillin Antibiotic", "rxcui": "723"},
+    {"id": 7, "name": "Omeprazole", "generic_name": "omeprazole", "drug_class": "Proton Pump Inhibitor", "rxcui": "7646"},
+    {"id": 8, "name": "Metoprolol", "generic_name": "metoprolol tartrate", "drug_class": "Beta Blocker", "rxcui": "6918"},
+    {"id": 9, "name": "Amlodipine", "generic_name": "amlodipine besylate", "drug_class": "Calcium Channel Blocker", "rxcui": "17767"},
+    {"id": 10, "name": "Gabapentin", "generic_name": "gabapentin", "drug_class": "Anticonvulsant", "rxcui": "25480"},
+    {"id": 11, "name": "Hydrochlorothiazide", "generic_name": "hydrochlorothiazide", "drug_class": "Thiazide Diuretic", "rxcui": "5487"},
+    {"id": 12, "name": "Sertraline", "generic_name": "sertraline hydrochloride", "drug_class": "SSRI", "rxcui": "36437"},
+    {"id": 13, "name": "Prednisone", "generic_name": "prednisone", "drug_class": "Corticosteroid", "rxcui": "8640"},
+    {"id": 14, "name": "Tramadol", "generic_name": "tramadol hydrochloride", "drug_class": "Opioid Analgesic", "rxcui": "10689"},
+    {"id": 15, "name": "Ciprofloxacin", "generic_name": "ciprofloxacin", "drug_class": "Fluoroquinolone", "rxcui": "2551"},
+    {"id": 16, "name": "Furosemide", "generic_name": "furosemide", "drug_class": "Loop Diuretic", "rxcui": "4603"},
+    {"id": 17, "name": "Clopidogrel", "generic_name": "clopidogrel bisulfate", "drug_class": "Antiplatelet", "rxcui": "32968"},
+    {"id": 18, "name": "Insulin Glargine", "generic_name": "insulin glargine", "drug_class": "Long-acting Insulin", "rxcui": "274783"},
+    {"id": 19, "name": "Levothyroxine", "generic_name": "levothyroxine sodium", "drug_class": "Thyroid Hormone", "rxcui": "10582"},
+    {"id": 20, "name": "Ibuprofen", "generic_name": "ibuprofen", "drug_class": "NSAID", "rxcui": "5640"},
+    {"id": 21, "name": "Fluoxetine", "generic_name": "fluoxetine hydrochloride", "drug_class": "SSRI", "rxcui": "4493"},
+    {"id": 22, "name": "Simvastatin", "generic_name": "simvastatin", "drug_class": "Statin", "rxcui": "36567"},
+    {"id": 23, "name": "Diazepam", "generic_name": "diazepam", "drug_class": "Benzodiazepine", "rxcui": "3322"},
+    {"id": 24, "name": "Digoxin", "generic_name": "digoxin", "drug_class": "Cardiac Glycoside", "rxcui": "3407"},
+    {"id": 25, "name": "Lithium", "generic_name": "lithium carbonate", "drug_class": "Mood Stabilizer", "rxcui": "6448"}
+  ],
+  "interactions": [
+    {
+      "drug_a": "Warfarin", "drug_b": "Aspirin",
+      "severity": "HIGH",
+      "description": "Increased risk of bleeding. Aspirin inhibits platelet function and may potentiate the anticoagulant effect of warfarin.",
+      "recommendation": "Avoid concurrent use unless specifically indicated. Monitor INR closely if combination is necessary."
+    },
+    {
+      "drug_a": "Warfarin", "drug_b": "Ibuprofen",
+      "severity": "HIGH",
+      "description": "NSAIDs increase the risk of GI bleeding and may enhance the anticoagulant effect of warfarin.",
+      "recommendation": "Use acetaminophen as an alternative analgesic. If NSAID required, use lowest dose for shortest duration."
+    },
+    {
+      "drug_a": "Warfarin", "drug_b": "Ciprofloxacin",
+      "severity": "HIGH",
+      "description": "Ciprofloxacin inhibits CYP1A2, potentially increasing warfarin levels and bleeding risk.",
+      "recommendation": "Monitor INR frequently. Consider dose reduction of warfarin during antibiotic therapy."
+    },
+    {
+      "drug_a": "Warfarin", "drug_b": "Omeprazole",
+      "severity": "MODERATE",
+      "description": "Omeprazole may increase warfarin levels via CYP2C19 inhibition.",
+      "recommendation": "Monitor INR when starting or stopping omeprazole. Consider pantoprazole as alternative."
+    },
+    {
+      "drug_a": "Metformin", "drug_b": "Insulin Glargine",
+      "severity": "MODERATE",
+      "description": "Combined use may increase the risk of hypoglycemia.",
+      "recommendation": "Monitor blood glucose levels closely. Adjust doses as needed."
+    },
+    {
+      "drug_a": "Lisinopril", "drug_b": "Hydrochlorothiazide",
+      "severity": "LOW",
+      "description": "Common therapeutic combination. May cause excessive blood pressure reduction.",
+      "recommendation": "Monitor blood pressure, especially when initiating combination. Often used intentionally."
+    },
+    {
+      "drug_a": "Sertraline", "drug_b": "Tramadol",
+      "severity": "CRITICAL",
+      "description": "Risk of serotonin syndrome. Both drugs increase serotonergic activity.",
+      "recommendation": "AVOID combination. If necessary, start with low doses and monitor for serotonin syndrome symptoms (agitation, tremor, hyperthermia)."
+    },
+    {
+      "drug_a": "Fluoxetine", "drug_b": "Tramadol",
+      "severity": "CRITICAL",
+      "description": "High risk of serotonin syndrome. Fluoxetine is a potent CYP2D6 inhibitor that also blocks serotonin reuptake.",
+      "recommendation": "CONTRAINDICATED. Use alternative analgesic. If unavoidable, requires close monitoring in hospital setting."
+    },
+    {
+      "drug_a": "Simvastatin", "drug_b": "Amlodipine",
+      "severity": "MODERATE",
+      "description": "Amlodipine increases simvastatin levels, raising the risk of myopathy/rhabdomyolysis.",
+      "recommendation": "Limit simvastatin dose to 20mg daily when combined with amlodipine."
+    },
+    {
+      "drug_a": "Digoxin", "drug_b": "Furosemide",
+      "severity": "HIGH",
+      "description": "Furosemide-induced hypokalemia increases the risk of digoxin toxicity.",
+      "recommendation": "Monitor potassium levels and digoxin serum concentrations. Supplement potassium as needed."
+    },
+    {
+      "drug_a": "Lithium", "drug_b": "Ibuprofen",
+      "severity": "HIGH",
+      "description": "NSAIDs reduce renal clearance of lithium, potentially causing lithium toxicity.",
+      "recommendation": "Avoid NSAIDs. Use acetaminophen instead. If NSAID necessary, monitor lithium levels closely."
+    },
+    {
+      "drug_a": "Lithium", "drug_b": "Lisinopril",
+      "severity": "HIGH",
+      "description": "ACE inhibitors reduce lithium excretion, increasing risk of lithium toxicity.",
+      "recommendation": "Monitor lithium levels frequently. Consider dose reduction. Use alternative antihypertensive if possible."
+    },
+    {
+      "drug_a": "Metoprolol", "drug_b": "Amlodipine",
+      "severity": "MODERATE",
+      "description": "Combined negative chronotropic and inotropic effects may cause excessive bradycardia or hypotension.",
+      "recommendation": "Monitor heart rate and blood pressure. Often used together therapeutically with appropriate monitoring."
+    },
+    {
+      "drug_a": "Clopidogrel", "drug_b": "Omeprazole",
+      "severity": "HIGH",
+      "description": "Omeprazole inhibits CYP2C19, reducing the antiplatelet effect of clopidogrel.",
+      "recommendation": "Use pantoprazole instead of omeprazole. Avoid other CYP2C19 inhibitors."
+    },
+    {
+      "drug_a": "Ciprofloxacin", "drug_b": "Prednisone",
+      "severity": "HIGH",
+      "description": "Increased risk of tendon rupture, especially Achilles tendon, with concurrent fluoroquinolone and corticosteroid use.",
+      "recommendation": "Avoid combination if possible. If used together, advise patient about tendon symptoms."
+    },
+    {
+      "drug_a": "Sertraline", "drug_b": "Aspirin",
+      "severity": "MODERATE",
+      "description": "SSRIs impair platelet function. Combined with aspirin, increases GI bleeding risk.",
+      "recommendation": "Consider gastroprotective agent (PPI) if combination is necessary."
+    },
+    {
+      "drug_a": "Diazepam", "drug_b": "Tramadol",
+      "severity": "CRITICAL",
+      "description": "Combined CNS depression. Risk of respiratory depression, profound sedation, coma, and death.",
+      "recommendation": "AVOID combination. If absolutely necessary, use lowest effective doses and shortest duration."
+    },
+    {
+      "drug_a": "Metformin", "drug_b": "Ciprofloxacin",
+      "severity": "MODERATE",
+      "description": "Ciprofloxacin may cause dysglycemia (both hypo- and hyperglycemia) when combined with antidiabetic agents.",
+      "recommendation": "Monitor blood glucose closely during antibiotic therapy."
+    },
+    {
+      "drug_a": "Levothyroxine", "drug_b": "Omeprazole",
+      "severity": "MODERATE",
+      "description": "PPIs reduce gastric acidity needed for levothyroxine absorption.",
+      "recommendation": "Take levothyroxine on empty stomach, at least 4 hours before omeprazole. Monitor TSH levels."
+    },
+    {
+      "drug_a": "Atorvastatin", "drug_b": "Amoxicillin",
+      "severity": "LOW",
+      "description": "Generally no significant interaction. Minimal clinical significance.",
+      "recommendation": "No dose adjustment required. Standard monitoring."
+    }
+  ]
+}

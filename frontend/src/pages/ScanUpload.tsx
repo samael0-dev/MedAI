@@ -146,18 +146,18 @@ export const ScanUpload: React.FC = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-300 max-w-5xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
           Upload Medical Scan
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Upload raw DICOM, high-res radiographs, CT, or histopathology slices for real-time deep learning classification.
         </p>
       </div>
 
       <form onSubmit={handleStartAnalysis} className="space-y-8">
         {/* Step 1: Modality Selection */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
-          <label className="text-sm font-semibold text-slate-900 block mb-3">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs">
+          <label className="text-sm font-semibold text-slate-900 dark:text-white block mb-3">
             1. Select Imaging Modality
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -171,15 +171,15 @@ export const ScanUpload: React.FC = () => {
                   onClick={() => setScanType(item.type)}
                   className={`flex flex-col text-left p-4 rounded-xl border-2 transition-all ${
                     isSelected
-                      ? 'border-blue-600 bg-blue-50/50 shadow-xs ring-2 ring-blue-600/10'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                      ? 'border-blue-600 dark:border-blue-500 bg-blue-50/50 dark:bg-blue-950/40 shadow-xs ring-2 ring-blue-600/10'
+                      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-slate-800/80'
                   }`}
                 >
-                  <div className={`p-2 rounded-lg w-fit mb-3 ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                  <div className={`p-2 rounded-lg w-fit mb-3 ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'}`}>
                     <Icon className="h-5 w-5" />
                   </div>
-                  <span className="font-semibold text-sm text-slate-900">{item.title}</span>
-                  <span className="text-xs text-slate-500 mt-1 leading-relaxed">{item.desc}</span>
+                  <span className="font-semibold text-sm text-slate-900 dark:text-white">{item.title}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{item.desc}</span>
                 </button>
               );
             })}
@@ -187,19 +187,19 @@ export const ScanUpload: React.FC = () => {
         </div>
 
         {/* Step 2: Patient & Clinical Priority */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
-          <label className="text-sm font-semibold text-slate-900 block mb-4">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs">
+          <label className="text-sm font-semibold text-slate-900 dark:text-white block mb-4">
             2. Patient & Examination Details
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 Assign to Patient <span className="text-rose-500">*</span>
               </label>
               <select
                 value={patientId}
                 onChange={(e) => setPatientId(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10"
               >
                 {patients.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -209,13 +209,13 @@ export const ScanUpload: React.FC = () => {
               </select>
 
               {selectedPatient && (
-                <div className="mt-3 rounded-xl bg-slate-50 p-3 border border-slate-100 text-xs text-slate-600 flex items-center justify-between">
+                <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 p-3 border border-slate-100 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 flex items-center justify-between">
                   <div>
-                    <span className="font-medium text-slate-900">MRN:</span> {selectedPatient.mrn} |{' '}
-                    <span className="font-medium text-slate-900">Blood:</span> {selectedPatient.bloodType}
+                    <span className="font-medium text-slate-900 dark:text-slate-100">MRN:</span> {selectedPatient.mrn} |{' '}
+                    <span className="font-medium text-slate-900 dark:text-slate-100">Blood:</span> {selectedPatient.bloodType}
                   </div>
                   {selectedPatient.allergies.length > 0 && (
-                    <span className="text-rose-600 font-medium">
+                    <span className="text-rose-600 dark:text-rose-400 font-medium">
                       Allergies: {selectedPatient.allergies.join(', ')}
                     </span>
                   )}
@@ -224,16 +224,16 @@ export const ScanUpload: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 Triage Priority Level
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {(['routine', 'urgent', 'critical'] as ScanPriority[]).map((level) => {
                   const isSelected = priority === level;
                   const colors = {
-                    routine: 'border-slate-300 text-slate-700 active:bg-slate-100',
-                    urgent: 'border-amber-400 text-amber-800 bg-amber-50/50',
-                    critical: 'border-rose-400 text-rose-800 bg-rose-50/50',
+                    routine: 'border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 active:bg-slate-100 dark:active:bg-slate-800',
+                    urgent: 'border-amber-400 dark:border-amber-700/60 text-amber-800 dark:text-amber-400 bg-amber-50/50 dark:bg-amber-950/40',
+                    critical: 'border-rose-400 dark:border-rose-700/60 text-rose-800 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-950/40',
                   }[level];
                   return (
                     <button
@@ -255,14 +255,14 @@ export const ScanUpload: React.FC = () => {
                   );
                 })}
               </div>
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
                 Critical scans are prioritized on the radiologist review queue.
               </p>
             </div>
           </div>
 
           <div className="mt-4">
-            <label className="block text-xs font-medium text-slate-700 mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
               Clinical Indication / Symptoms (Optional)
             </label>
             <input
@@ -270,14 +270,14 @@ export const ScanUpload: React.FC = () => {
               value={clinicalIndication}
               onChange={(e) => setClinicalIndication(e.target.value)}
               placeholder="e.g., Shortness of breath, localized right basal crackles, 5-day fever..."
-              className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10"
+              className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10"
             />
           </div>
         </div>
 
         {/* Step 3: Drag & Drop Zone */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
-          <label className="text-sm font-semibold text-slate-900 block mb-3">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs">
+          <label className="text-sm font-semibold text-slate-900 dark:text-white block mb-3">
             3. File Ingestion
           </label>
 
@@ -298,26 +298,26 @@ export const ScanUpload: React.FC = () => {
               onClick={() => fileInputRef.current?.click()}
               className={`flex flex-col items-center justify-center border-2 border-dashed rounded-2xl p-10 cursor-pointer transition-all ${
                 dragActive
-                  ? 'border-blue-600 bg-blue-50/70 scale-[1.01]'
-                  : 'border-slate-300 hover:border-blue-400 bg-slate-50/50 hover:bg-slate-50'
+                  ? 'border-blue-600 bg-blue-50/70 dark:bg-blue-950/50 scale-[1.01]'
+                  : 'border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800/60'
               }`}
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100/70 text-blue-600 mb-4 shadow-2xs">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100/70 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400 mb-4 shadow-2xs">
                 <UploadCloud className="h-7 w-7" />
               </div>
-              <p className="text-sm font-semibold text-slate-800">
+              <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                 Click or drag & drop scan file here
               </p>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Supports DICOM (.dcm), High-Res PNG, JPEG, TIFF (up to 150MB)
               </p>
-              <div className="mt-4 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-600 shadow-2xs">
-                <Sparkles className="h-3 w-3 text-blue-600" />
+              <div className="mt-4 flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1 text-[11px] font-medium text-slate-600 dark:text-slate-300 shadow-2xs">
+                <Sparkles className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                 Automatic De-identification & DICOM Header Anonymization
               </div>
             </div>
           ) : (
-            <div className="relative rounded-2xl border border-slate-200 overflow-hidden bg-slate-950 p-4">
+            <div className="relative rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-950 p-4">
               <button
                 type="button"
                 onClick={() => {
@@ -363,21 +363,21 @@ export const ScanUpload: React.FC = () => {
 
         {/* Progress Display when processing */}
         {isProcessing && (
-          <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-6 shadow-sm space-y-3 animate-in fade-in">
+          <div className="rounded-2xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/40 p-6 shadow-sm space-y-3 animate-in fade-in">
             <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2 font-semibold text-blue-900">
-                <Activity className="h-4 w-4 text-blue-600 animate-spin" />
+              <div className="flex items-center gap-2 font-semibold text-blue-900 dark:text-blue-300">
+                <Activity className="h-4 w-4 text-blue-600 dark:text-blue-400 animate-spin" />
                 {pipelineStage}
               </div>
-              <span className="font-bold text-blue-700">{progressPercent}%</span>
+              <span className="font-bold text-blue-700 dark:text-blue-400">{progressPercent}%</span>
             </div>
-            <div className="h-3 w-full rounded-full bg-blue-100 overflow-hidden">
+            <div className="h-3 w-full rounded-full bg-blue-100 dark:bg-blue-900/50 overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 rounded-full"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
-            <p className="text-xs text-blue-600/80">
+            <p className="text-xs text-blue-600/80 dark:text-blue-400/80">
               Generating Grad-CAM heatmap overlays and calculating Bayesian confidence percentiles...
             </p>
           </div>
@@ -388,7 +388,7 @@ export const ScanUpload: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/scan-results')}
-            className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
           >
             Cancel
           </button>

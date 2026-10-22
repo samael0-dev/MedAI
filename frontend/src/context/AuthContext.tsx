@@ -14,16 +14,6 @@ interface AuthContextType {
   setUser: (user: AuthUser | null) => void;
 }
 
-const DEFAULT_DEMO_USER: AuthUser = {
-  id: 1,
-  email: 'alan.mitchell@medai-hospital.org',
-  full_name: 'Dr. Alan Mitchell',
-  role: 'radiologist',
-  department: 'Chief Radiologist',
-  is_active: true,
-  created_at: new Date().toISOString(),
-};
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -34,10 +24,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         return JSON.parse(savedUser);
       } catch {
-        return DEFAULT_DEMO_USER;
+        return null;
       }
     }
-    return DEFAULT_DEMO_USER;
+    return null;
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -51,9 +41,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setUser(profile);
           localStorage.setItem('medai_user', JSON.stringify(profile));
         } catch {
-          // Token expired or server restarted; retain cached demo user
-          console.info('[Auth] Using cached session');
+          // Token expired or invalid
+          setUser(null);
+          localStorage.removeItem('medai_token');
+          localStorage.removeItem('medai_user');
         }
+      } else {
+        setUser(null);
       }
       setIsLoading(false);
     }

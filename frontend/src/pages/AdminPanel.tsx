@@ -84,79 +84,79 @@ export const AdminPanel: React.FC = () => {
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
           Clinical Admin & Intelligence Engine
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           NLP clinical documentation extraction, departmental physician workload tracking, and neural inference system health.
         </p>
       </div>
 
       {/* System Health Indicators */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               API Gateway
             </span>
             <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-slate-900">99.98%</span>
-            <span className="text-xs font-semibold text-emerald-600">Operational</span>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">99.98%</span>
+            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Operational</span>
           </div>
-          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between">
+          <div className="mt-2 text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
             <span>Latency: 18ms</span>
             <span>FHIR R4 / HL7 Ready</span>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               GPU Inference Cluster
             </span>
-            <Cpu className="h-4 w-4 text-blue-600" />
+            <Cpu className="h-4 w-4 text-blue-600 dark:text-blue-400" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-slate-900">320 ms</span>
-            <span className="text-xs font-semibold text-blue-600">p95 inference</span>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">320 ms</span>
+            <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">p95 inference</span>
           </div>
-          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between">
+          <div className="mt-2 text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
             <span>4x NVIDIA H100</span>
             <span>Load: 42%</span>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               PACS / DICOM Volume
             </span>
-            <HardDrive className="h-4 w-4 text-purple-600" />
+            <HardDrive className="h-4 w-4 text-purple-600 dark:text-purple-400" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-slate-900">12.4 TB</span>
-            <span className="text-xs text-slate-500">/ 50 TB</span>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">12.4 TB</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">/ 50 TB</span>
           </div>
-          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between">
+          <div className="mt-2 text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
             <span>AES-256 Storage</span>
             <span>Auto-mirrored</span>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Audit Compliance
             </span>
-            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-slate-900">HIPAA A+</span>
-            <span className="text-xs font-semibold text-emerald-600">Zero Flags</span>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">HIPAA A+</span>
+            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Zero Flags</span>
           </div>
-          <div className="mt-2 text-xs text-slate-400 flex items-center justify-between">
+          <div className="mt-2 text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
             <span>SOC2 Type II</span>
             <span>Verified</span>
           </div>
@@ -164,31 +164,31 @@ export const AdminPanel: React.FC = () => {
       </div>
 
       {/* Clinical Notes Processor */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-6">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs space-y-6">
         <div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-blue-600" />
-              <h2 className="text-lg font-bold text-slate-900">Clinical Notes NLP Processor</h2>
+              <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">Clinical Notes NLP Processor</h2>
             </div>
-            <span className="rounded-full bg-blue-50 text-blue-700 px-3 py-1 text-xs font-bold border border-blue-200/60">
+            <span className="rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60 px-3 py-1 text-xs font-bold">
               MedAI-LLM v3
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Paste unformatted physician dictations or nursing observations to extract structured clinical entities and actionable care directives.
           </p>
         </div>
 
         {/* Quick Sample Presets */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold text-slate-500">Insert Sample Note:</span>
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Insert Sample Note:</span>
           {samplePresets.map((preset) => (
             <button
               key={preset.title}
               type="button"
               onClick={() => setClinicalText(preset.text)}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+              className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             >
               {preset.title}
             </button>
@@ -202,14 +202,14 @@ export const AdminPanel: React.FC = () => {
             value={clinicalText}
             onChange={(e) => setClinicalText(e.target.value)}
             placeholder="Type or paste unstructured physician encounter notes here..."
-            className="w-full rounded-xl border border-slate-200 p-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10 leading-relaxed font-mono"
+            className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10 leading-relaxed font-mono"
           />
 
           <div className="flex items-center justify-end">
             <button
               type="submit"
               disabled={summarizeMutation.isPending}
-              className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700 transition-all disabled:opacity-50"
+              className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700 transition-all disabled:opacity-50 cursor-pointer"
             >
               {summarizeMutation.isPending ? (
                 <>
@@ -226,54 +226,54 @@ export const AdminPanel: React.FC = () => {
 
         {/* Structured Output Display */}
         {summaryResult && (
-          <div className="rounded-xl border border-blue-200 bg-blue-50/30 p-5 space-y-4 animate-in fade-in">
-            <div className="flex items-center justify-between pb-3 border-blue-100 border-b">
-              <span className="font-bold text-sm text-blue-900 flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-blue-600" /> Structured Clinical Record
+          <div className="rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/30 dark:bg-blue-950/20 p-5 space-y-4 animate-in fade-in">
+            <div className="flex items-center justify-between pb-3 border-blue-100 dark:border-blue-900/40 border-b">
+              <span className="font-bold text-sm text-blue-900 dark:text-blue-300 flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" /> Structured Clinical Record
               </span>
-              <span className="text-xs text-blue-600 font-mono">
+              <span className="text-xs text-blue-600 dark:text-blue-400 font-mono">
                 {new Date(summaryResult.processedAt).toLocaleTimeString()}
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div className="rounded-lg bg-white p-3.5 border border-slate-200 space-y-1">
-                <span className="font-bold text-slate-800 uppercase tracking-wider text-[11px] block">
+              <div className="rounded-lg bg-white dark:bg-slate-900 p-3.5 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] block">
                   Chief Complaint
                 </span>
-                <p className="text-slate-700 font-medium">{summaryResult.chiefComplaint}</p>
+                <p className="text-slate-700 dark:text-slate-300 font-medium">{summaryResult.chiefComplaint}</p>
               </div>
 
-              <div className="rounded-lg bg-white p-3.5 border border-slate-200 space-y-1">
-                <span className="font-bold text-slate-800 uppercase tracking-wider text-[11px] block">
+              <div className="rounded-lg bg-white dark:bg-slate-900 p-3.5 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] block">
                   History of Present Illness (HPI)
                 </span>
-                <p className="text-slate-600">{summaryResult.historyOfPresentIllness}</p>
+                <p className="text-slate-600 dark:text-slate-400">{summaryResult.historyOfPresentIllness}</p>
               </div>
             </div>
 
             {/* Differential Diagnoses */}
-            <div className="rounded-lg bg-white p-3.5 border border-slate-200 space-y-2 text-xs">
-              <span className="font-bold text-slate-800 uppercase tracking-wider text-[11px] block">
+            <div className="rounded-lg bg-white dark:bg-slate-900 p-3.5 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <span className="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] block">
                 Ranked Differential Diagnoses
               </span>
               <div className="space-y-1.5">
                 {summaryResult.differentialDiagnosis.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start justify-between p-2 rounded-md bg-slate-50 border border-slate-100"
+                    className="flex items-start justify-between p-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60"
                   >
                     <div>
-                      <span className="font-bold text-slate-900">{item.condition}</span>
-                      <p className="text-slate-500 text-[11px]">{item.rationale}</p>
+                      <span className="font-bold text-slate-900 dark:text-slate-100">{item.condition}</span>
+                      <p className="text-slate-500 dark:text-slate-400 text-[11px]">{item.rationale}</p>
                     </div>
                     <span
                       className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
                         item.likelihood === 'High'
-                          ? 'bg-rose-100 text-rose-800'
+                          ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
                           : item.likelihood === 'Moderate'
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-slate-100 text-slate-700'
+                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                          : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                       }`}
                     >
                       {item.likelihood} Likelihood
@@ -284,11 +284,11 @@ export const AdminPanel: React.FC = () => {
             </div>
 
             {/* Recommended Plan */}
-            <div className="rounded-lg bg-white p-3.5 border border-slate-200 space-y-2 text-xs">
-              <span className="font-bold text-slate-800 uppercase tracking-wider text-[11px] block">
+            <div className="rounded-lg bg-white dark:bg-slate-900 p-3.5 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+              <span className="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] block">
                 Actionable Clinical Orders & Next Steps
               </span>
-              <ul className="list-disc pl-5 space-y-1 text-slate-700">
+              <ul className="list-disc pl-5 space-y-1 text-slate-700 dark:text-slate-300">
                 {summaryResult.recommendedActions.map((action, idx) => (
                   <li key={idx}>{action}</li>
                 ))}
@@ -301,15 +301,15 @@ export const AdminPanel: React.FC = () => {
       {/* Staff Workload Chart & Activity Audit */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Workload Bar Chart */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs lg:col-span-8">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs lg:col-span-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-semibold text-slate-900">Physician Workload by Department</h3>
-              <p className="text-xs text-slate-500">Active staffing, open study backlog, and turnaround metrics</p>
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100">Physician Workload by Department</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Active staffing, open study backlog, and turnaround metrics</p>
             </div>
             <button
               onClick={() => refetchWorkload()}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               title="Refresh workload data"
             >
               <RefreshCw className="h-4 w-4" />
@@ -319,7 +319,7 @@ export const AdminPanel: React.FC = () => {
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={workload} margin={{ top: 10, right: 20, left: -10, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
                 <XAxis dataKey="department" tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <YAxis tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <RechartsTooltip
@@ -327,12 +327,12 @@ export const AdminPanel: React.FC = () => {
                     if (active && payload && payload.length) {
                       const d = payload[0].payload as WorkloadStats;
                       return (
-                        <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-lg text-xs space-y-1">
-                          <p className="font-bold text-slate-900">{d.department}</p>
-                          <p className="text-blue-600">Pending Studies: {d.pendingCases}</p>
-                          <p className="text-emerald-600">Completed Today: {d.completedToday}</p>
-                          <p className="text-slate-600">Active Physicians: {d.activeDoctors}</p>
-                          <p className="text-purple-600 font-semibold">Avg Turnaround: {d.avgTurnaroundHours} hrs</p>
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-lg text-xs space-y-1">
+                          <p className="font-bold text-slate-900 dark:text-slate-100">{d.department}</p>
+                          <p className="text-blue-600 dark:text-blue-400">Pending Studies: {d.pendingCases}</p>
+                          <p className="text-emerald-600 dark:text-emerald-400">Completed Today: {d.completedToday}</p>
+                          <p className="text-slate-600 dark:text-slate-300">Active Physicians: {d.activeDoctors}</p>
+                          <p className="text-purple-600 dark:text-purple-400 font-semibold">Avg Turnaround: {d.avgTurnaroundHours} hrs</p>
                         </div>
                       );
                     }
@@ -348,27 +348,27 @@ export const AdminPanel: React.FC = () => {
         </div>
 
         {/* Recent Documentation Activity Audit */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs lg:col-span-4 flex flex-col justify-between">
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs lg:col-span-4 flex flex-col justify-between">
           <div>
-            <h3 className="font-semibold text-slate-900 mb-1">Documentation Audit Log</h3>
-            <p className="text-xs text-slate-500 mb-4">Immutable chronological log of signed examinations</p>
+            <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-1">Documentation Audit Log</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Immutable chronological log of signed examinations</p>
 
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {recentAuditFeed.map((item) => (
                 <div key={item.id} className="py-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-800">{item.user}</span>
-                    <span className="text-[10px] text-slate-400 font-mono">{item.time}</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{item.user}</span>
+                    <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{item.time}</span>
                   </div>
-                  <p className="text-xs text-blue-600 font-medium mt-0.5">{item.action}</p>
-                  <p className="text-[11px] text-slate-500 truncate">{item.target}</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mt-0.5">{item.action}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{item.target}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-100 text-center">
-            <span className="text-[11px] text-slate-400">All events cryptographically signed</span>
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+            <span className="text-[11px] text-slate-400 dark:text-slate-500">All events cryptographically signed</span>
           </div>
         </div>
       </div>

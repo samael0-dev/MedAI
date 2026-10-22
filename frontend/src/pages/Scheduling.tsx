@@ -108,10 +108,10 @@ export const Scheduling: React.FC = () => {
       {/* Page Title & Booking Action */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
             Clinical Scheduling & Patient Encounters
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Real-time multi-departmental clinic bookings, doctor consultation timelines, and conflict detection.
           </p>
         </div>
@@ -125,14 +125,14 @@ export const Scheduling: React.FC = () => {
       </div>
 
       {/* Control Bar: View Toggle, Date & Department Filter */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
         {/* Left: View Mode Toggle */}
-        <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1 border border-slate-200/80 w-fit">
+        <div className="flex items-center gap-1 rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200/80 dark:border-slate-700 w-fit">
           <button
             type="button"
             onClick={() => setViewMode('day')}
-            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all ${
-              viewMode === 'day' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+              viewMode === 'day' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Day View
@@ -140,8 +140,8 @@ export const Scheduling: React.FC = () => {
           <button
             type="button"
             onClick={() => setViewMode('week')}
-            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all ${
-              viewMode === 'week' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+              viewMode === 'week' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Week Overview
@@ -154,17 +154,17 @@ export const Scheduling: React.FC = () => {
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-hidden"
+            className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-hidden"
           />
         </div>
 
         {/* Right: Department Filter */}
         <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-slate-400" />
+          <Filter className="h-4 w-4 text-slate-400 dark:text-slate-500" />
           <select
             value={selectedDepartment}
             onChange={(e) => setSelectedDepartment(e.target.value)}
-            className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-hidden"
+            className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-hidden"
           >
             <option value="all">All Departments</option>
             {departments.map((dept) => (
@@ -177,28 +177,28 @@ export const Scheduling: React.FC = () => {
       </div>
 
       {/* Timeline View */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <CalendarIcon className="h-5 w-5 text-blue-600" />
-            <h3 className="font-bold text-slate-900 text-base">
+            <CalendarIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <h3 className="font-bold text-slate-900 dark:text-white text-base">
               {viewMode === 'day' ? `Schedule for ${selectedDate}` : 'Scheduled Encounters Across Week'}
             </h3>
           </div>
-          <span className="text-xs text-slate-400 font-medium">
+          <span className="text-xs text-slate-400 dark:text-slate-500 font-medium">
             {filteredAppointments.length} appointment{filteredAppointments.length !== 1 ? 's' : ''} listed
           </span>
         </div>
 
         {/* Time slot grid */}
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y divide-slate-100 dark:divide-slate-800">
           {timeSlots.map((slot) => {
             const slotApts = filteredAppointments.filter((a) => a.time.startsWith(slot.slice(0, 2)));
 
             return (
               <div key={slot} className="py-4 flex flex-col md:flex-row md:items-start gap-4">
                 {/* Time Label */}
-                <div className="w-20 shrink-0 font-mono text-xs font-bold text-slate-500 pt-1">
+                <div className="w-20 shrink-0 font-mono text-xs font-bold text-slate-500 dark:text-slate-400 pt-1">
                   {slot}
                 </div>
 
@@ -206,10 +206,10 @@ export const Scheduling: React.FC = () => {
                 <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {slotApts.map((apt) => {
                     const statusColors = {
-                      'in-progress': 'border-blue-300 bg-blue-50/70 text-blue-900',
-                      scheduled: 'border-slate-200 bg-white text-slate-900',
-                      completed: 'border-emerald-200 bg-emerald-50/70 text-emerald-900',
-                      cancelled: 'border-rose-200 bg-rose-50/70 text-rose-900',
+                      'in-progress': 'border-blue-300 dark:border-blue-800/80 bg-blue-50/70 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200',
+                      scheduled: 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/90 text-slate-900 dark:text-white',
+                      completed: 'border-emerald-200 dark:border-emerald-800/80 bg-emerald-50/70 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200',
+                      cancelled: 'border-rose-200 dark:border-rose-800/80 bg-rose-50/70 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200',
                     }[apt.status];
 
                     return (
@@ -219,24 +219,24 @@ export const Scheduling: React.FC = () => {
                       >
                         <div className="flex items-start justify-between">
                           <div>
-                            <span className="rounded-md bg-blue-100 text-blue-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider">
+                            <span className="rounded-md bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200/40 dark:border-blue-800/40 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider">
                               {apt.type}
                             </span>
-                            <h4 className="font-bold text-sm text-slate-900 mt-1">{apt.patientName}</h4>
+                            <h4 className="font-bold text-sm text-slate-900 dark:text-white mt-1">{apt.patientName}</h4>
                           </div>
-                          <span className="text-xs font-mono font-semibold text-slate-500">
+                          <span className="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
                             {apt.time} ({apt.durationMinutes}m)
                           </span>
                         </div>
 
-                        <div className="text-xs text-slate-600 flex items-center gap-1.5">
-                          <Stethoscope className="h-3.5 w-3.5 text-blue-600" />
+                        <div className="text-xs text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+                          <Stethoscope className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
                           <span>{apt.doctorName}</span>
-                          <span className="text-slate-400">• {apt.department}</span>
+                          <span className="text-slate-400 dark:text-slate-500">• {apt.department}</span>
                         </div>
 
                         {apt.notes && (
-                          <p className="text-[11px] text-slate-500 italic line-clamp-1 border-t border-slate-100/80 pt-1.5">
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 italic line-clamp-1 border-t border-slate-100/80 dark:border-slate-700/60 pt-1.5">
                             "{apt.notes}"
                           </p>
                         )}
@@ -245,7 +245,7 @@ export const Scheduling: React.FC = () => {
                   })}
 
                   {slotApts.length === 0 && (
-                    <div className="py-2 text-xs text-slate-300 italic">No appointments in this slot</div>
+                    <div className="py-2 text-xs text-slate-300 dark:text-slate-600 italic">No appointments in this slot</div>
                   )}
                 </div>
               </div>
@@ -257,14 +257,14 @@ export const Scheduling: React.FC = () => {
       {/* Create Appointment Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-              <h3 className="font-bold text-slate-900 text-base flex items-center gap-2">
-                <CalendarIcon className="h-5 w-5 text-blue-600" /> Book Clinical Appointment
+          <div className="w-full max-w-lg rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+              <h3 className="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                <CalendarIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" /> Book Clinical Appointment
               </h3>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="rounded-lg p-1 text-slate-400 hover:text-slate-600"
+                className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -272,7 +272,7 @@ export const Scheduling: React.FC = () => {
 
             {/* Conflict Detection Alert */}
             {hasConflict && (
-              <div className="rounded-xl border border-amber-300 bg-amber-50 p-3.5 flex items-start gap-2.5 text-amber-900 text-xs">
+              <div className="rounded-xl border border-amber-300 dark:border-amber-700/60 bg-amber-50 dark:bg-amber-950/40 p-3.5 flex items-start gap-2.5 text-amber-900 dark:text-amber-200 text-xs">
                 <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold block">Scheduling Conflict Detected!</span>
@@ -290,11 +290,11 @@ export const Scheduling: React.FC = () => {
               className="space-y-4 text-xs"
             >
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Select Patient *</label>
+                <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Select Patient *</label>
                 <select
                   value={formPatientId}
                   onChange={(e) => setFormPatientId(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                 >
                   {patients.map((p) => (
                     <option key={p.id} value={p.id}>
@@ -306,7 +306,7 @@ export const Scheduling: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Department</label>
+                  <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Department</label>
                   <select
                     value={formDepartment}
                     onChange={(e) => {
@@ -314,7 +314,7 @@ export const Scheduling: React.FC = () => {
                       const matchingDoc = doctorsList.find((d) => d.dept === e.target.value);
                       if (matchingDoc) setFormDoctor(matchingDoc.name);
                     }}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                   >
                     {departments.map((dept) => (
                       <option key={dept} value={dept}>
@@ -325,11 +325,11 @@ export const Scheduling: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Physician / Specialist</label>
+                  <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Physician / Specialist</label>
                   <select
                     value={formDoctor}
                     onChange={(e) => setFormDoctor(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                   >
                     {doctorsList.map((doc) => (
                       <option key={doc.name} value={doc.name}>
@@ -342,21 +342,21 @@ export const Scheduling: React.FC = () => {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Date</label>
+                  <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Date</label>
                   <input
                     type="date"
                     required
                     value={formDate}
                     onChange={(e) => setFormDate(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                   />
                 </div>
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Time</label>
+                  <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Time</label>
                   <select
                     value={formTime}
                     onChange={(e) => setFormTime(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                   >
                     {timeSlots.map((ts) => (
                       <option key={ts} value={ts}>
@@ -366,11 +366,11 @@ export const Scheduling: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Duration</label>
+                  <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Duration</label>
                   <select
                     value={formDuration}
                     onChange={(e) => setFormDuration(Number(e.target.value))}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                   >
                     <option value={15}>15 mins</option>
                     <option value={30}>30 mins</option>
@@ -381,11 +381,11 @@ export const Scheduling: React.FC = () => {
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Encounter Type</label>
+                <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Encounter Type</label>
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value as Appointment['type'])}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden"
                 >
                   <option value="Scan Review">Scan Review</option>
                   <option value="Consultation">Consultation</option>
@@ -395,28 +395,28 @@ export const Scheduling: React.FC = () => {
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Clinical Notes / Reason for Visit</label>
+                <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Clinical Notes / Reason for Visit</label>
                 <textarea
                   rows={2}
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
                   placeholder="e.g. Review chest CT findings with oncology team..."
-                  className="w-full rounded-xl border border-slate-200 p-2.5 text-sm focus:border-blue-500 focus:outline-hidden"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-2.5 text-sm focus:border-blue-500 focus:outline-hidden"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-200">
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createAptMutation.isPending}
-                  className="px-5 py-2 rounded-xl bg-blue-600 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50"
+                  className="px-5 py-2 rounded-xl bg-blue-600 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
                 >
                   {createAptMutation.isPending ? 'Booking...' : 'Confirm Appointment'}
                 </button>

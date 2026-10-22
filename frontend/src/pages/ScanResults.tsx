@@ -81,16 +81,16 @@ export const ScanResults: React.FC = () => {
   const getSeverityBadge = (sev: SeverityLevel) => {
     switch (sev) {
       case 'critical':
-        return <span className="rounded-md bg-rose-100 text-rose-800 px-2 py-0.5 text-xs font-bold border border-rose-200">Critical</span>;
+        return <span className="rounded-md bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 px-2 py-0.5 text-xs font-bold border border-rose-200 dark:border-rose-900/60">Critical</span>;
       case 'high':
-        return <span className="rounded-md bg-orange-100 text-orange-800 px-2 py-0.5 text-xs font-semibold border border-orange-200">High Risk</span>;
+        return <span className="rounded-md bg-orange-100 dark:bg-orange-950/60 text-orange-800 dark:text-orange-300 px-2 py-0.5 text-xs font-semibold border border-orange-200 dark:border-orange-900/60">High Risk</span>;
       case 'moderate':
-        return <span className="rounded-md bg-amber-100 text-amber-800 px-2 py-0.5 text-xs font-medium border border-amber-200">Moderate</span>;
+        return <span className="rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 px-2 py-0.5 text-xs font-medium border border-amber-200 dark:border-amber-900/60">Moderate</span>;
       case 'low':
-        return <span className="rounded-md bg-blue-100 text-blue-800 px-2 py-0.5 text-xs font-medium border border-blue-200">Mild</span>;
+        return <span className="rounded-md bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 px-2 py-0.5 text-xs font-medium border border-blue-200 dark:border-blue-900/60">Mild</span>;
       case 'normal':
       default:
-        return <span className="rounded-md bg-emerald-100 text-emerald-800 px-2 py-0.5 text-xs font-medium border border-emerald-200">Normal</span>;
+        return <span className="rounded-md bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 text-xs font-medium border border-emerald-200 dark:border-emerald-900/60">Normal</span>;
     }
   };
 
@@ -115,10 +115,10 @@ export const ScanResults: React.FC = () => {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
             Scan Diagnostic Results
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Review convolutional neural network findings, Grad-CAM attention heatmaps, and submit verified diagnostic reports.
           </p>
         </div>
@@ -141,7 +141,7 @@ export const ScanResults: React.FC = () => {
                 setSelectedScan(null);
                 setSearchParams({});
               }}
-              className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors cursor-pointer"
+              className="flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
             >
               <ChevronLeft className="h-4 w-4" /> Back to All Scans
             </button>
@@ -149,9 +149,9 @@ export const ScanResults: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowReportModal(true)}
-                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs cursor-pointer"
+                className="flex items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-2xs cursor-pointer"
               >
-                <Printer className="h-4 w-4 text-slate-500" />
+                <Printer className="h-4 w-4 text-slate-500 dark:text-slate-400" />
                 Export Clinical Report
               </button>
             </div>
@@ -160,19 +160,19 @@ export const ScanResults: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left Column: Image Viewer + Heatmap Controls */}
             <div className="lg:col-span-6 space-y-4">
-              <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
+              <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-md bg-blue-100 text-blue-800 px-2.5 py-0.5 text-xs font-bold uppercase">
+                    <span className="rounded-md bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 px-2.5 py-0.5 text-xs font-bold uppercase border border-blue-200/40 dark:border-blue-800/40">
                       {selectedScan.scanType}
                     </span>
-                    <h3 className="font-bold text-slate-900 text-base">{selectedScan.bodyPart}</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-white text-base">{selectedScan.bodyPart}</h3>
                   </div>
-                  <span className="text-xs font-mono text-slate-400">{selectedScan.id}</span>
+                  <span className="text-xs font-mono text-slate-400 dark:text-slate-500">{selectedScan.id}</span>
                 </div>
 
                 {/* Scan Image Container with Heatmap overlay */}
-                <div className="relative aspect-4/3 w-full rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center border border-slate-900 select-none">
+                <div className="relative aspect-4/3 w-full rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center border border-slate-800 select-none">
                   <img
                     src={selectedScan.imageUrl}
                     alt="Original scan"
@@ -197,7 +197,7 @@ export const ScanResults: React.FC = () => {
                 </div>
 
                 {/* Heatmap Overlay Controls */}
-                <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="mt-4 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
@@ -205,7 +205,7 @@ export const ScanResults: React.FC = () => {
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                         showHeatmap
                           ? 'bg-blue-600 text-white shadow-xs'
-                          : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                          : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                       }`}
                     >
                       <Layers className="h-3.5 w-3.5" />
@@ -215,7 +215,7 @@ export const ScanResults: React.FC = () => {
 
                   {showHeatmap && (
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium text-slate-500 whitespace-nowrap">Opacity:</span>
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">Opacity:</span>
                       <input
                         type="range"
                         min="10"
@@ -224,7 +224,7 @@ export const ScanResults: React.FC = () => {
                         onChange={(e) => setHeatmapOpacity(Number(e.target.value))}
                         className="w-28 sm:w-36 accent-blue-600 cursor-pointer"
                       />
-                      <span className="text-xs font-mono font-semibold text-slate-700 w-8">
+                      <span className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 w-8">
                         {heatmapOpacity}%
                       </span>
                     </div>
@@ -233,34 +233,34 @@ export const ScanResults: React.FC = () => {
               </div>
 
               {/* Patient Info Card */}
-              <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+              <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
                   Patient & Protocol Information
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                   <div>
-                    <span className="text-slate-500 block">Patient Name:</span>
-                    <span className="font-bold text-slate-900">{selectedScan.patientName}</span>
+                    <span className="text-slate-500 dark:text-slate-400 block">Patient Name:</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{selectedScan.patientName}</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block">Exam Date:</span>
-                    <span className="font-semibold text-slate-800">
+                    <span className="text-slate-500 dark:text-slate-400 block">Exam Date:</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">
                       {new Date(selectedScan.scanDate).toLocaleString()}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block">Priority:</span>
-                    <span className="font-bold uppercase text-blue-600">{selectedScan.priority}</span>
+                    <span className="text-slate-500 dark:text-slate-400 block">Priority:</span>
+                    <span className="font-bold uppercase text-blue-600 dark:text-blue-400">{selectedScan.priority}</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block">Reviewing Radiologist:</span>
-                    <span className="font-semibold text-slate-800">
+                    <span className="text-slate-500 dark:text-slate-400 block">Reviewing Radiologist:</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">
                       {selectedScan.reviewedBy || 'AI Primary Assessment'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block">Overall AI Confidence:</span>
-                    <span className="font-bold text-emerald-600 text-sm">
+                    <span className="text-slate-500 dark:text-slate-400 block">Overall AI Confidence:</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400 text-sm">
                       {selectedScan.confidenceScore}%
                     </span>
                   </div>
@@ -271,13 +271,13 @@ export const ScanResults: React.FC = () => {
             {/* Right Column: AI Findings & Radiologist Impression */}
             <div className="lg:col-span-6 space-y-4">
               {/* Findings Card */}
-              <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs">
+              <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="font-bold text-slate-900 text-base">Neural Network Findings</h3>
-                    <p className="text-xs text-slate-500">Automated classification with Bayesian confidence bounds</p>
+                    <h3 className="font-bold text-slate-900 dark:text-white text-base">Neural Network Findings</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Automated classification with Bayesian confidence bounds</p>
                   </div>
-                  <span className="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold">
+                  <span className="rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-850 px-2.5 py-0.5 text-xs font-semibold">
                     {selectedScan.findings.length} findings
                   </span>
                 </div>
@@ -286,26 +286,26 @@ export const ScanResults: React.FC = () => {
                   {selectedScan.findings.map((finding) => (
                     <div
                       key={finding.id}
-                      className="rounded-xl border border-slate-200/70 p-4 bg-slate-50/50 space-y-2 hover:bg-slate-50 transition-colors"
+                      className="rounded-xl border border-slate-200/70 dark:border-slate-750 dark:border-slate-700 p-4 bg-slate-50/50 dark:bg-slate-800/40 space-y-2 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <h4 className="font-semibold text-sm text-slate-900">{finding.condition}</h4>
+                          <h4 className="font-semibold text-sm text-slate-900 dark:text-white">{finding.condition}</h4>
                           {finding.location && (
-                            <span className="text-xs text-slate-400 font-medium">({finding.location})</span>
+                            <span className="text-xs text-slate-400 dark:text-slate-500 font-medium">({finding.location})</span>
                           )}
                         </div>
                         {getSeverityBadge(finding.severity)}
                       </div>
 
-                      <p className="text-xs text-slate-600 leading-relaxed">{finding.description}</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{finding.description}</p>
 
                       <div className="pt-1">
                         <div className="flex items-center justify-between text-xs mb-1">
-                          <span className="text-slate-500 font-medium">Model Certainty:</span>
-                          <span className="font-bold text-slate-800">{finding.confidence}%</span>
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">Model Certainty:</span>
+                          <span className="font-bold text-slate-800 dark:text-slate-200">{finding.confidence}%</span>
                         </div>
-                        <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+                        <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full ${getConfidenceBarColor(finding.severity)}`}
                             style={{ width: `${finding.confidence}%` }}
@@ -318,10 +318,10 @@ export const ScanResults: React.FC = () => {
               </div>
 
               {/* Radiologist Notes Editor */}
-              <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs space-y-3">
+              <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-slate-900 text-base">Radiologist Impression & Sign-off</h3>
-                  <span className="text-xs text-slate-400">Official Clinical Record</span>
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base">Radiologist Impression & Sign-off</h3>
+                  <span className="text-xs text-slate-400 dark:text-slate-500">Official Clinical Record</span>
                 </div>
 
                 <textarea
@@ -329,11 +329,11 @@ export const ScanResults: React.FC = () => {
                   value={radiologistNoteInput}
                   onChange={(e) => setRadiologistNoteInput(e.target.value)}
                   placeholder="Enter clinical notes, concordances, recommended differential workups, or follow-up protocol..."
-                  className="w-full rounded-xl border border-slate-200 p-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10 leading-relaxed"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-500/10 leading-relaxed"
                 />
 
                 <div className="flex items-center justify-between pt-1">
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-slate-400 dark:text-slate-500">
                     Signing as Dr. Alan Mitchell, MD
                   </span>
                   <button
@@ -353,16 +353,16 @@ export const ScanResults: React.FC = () => {
         /* TABLE LIST VIEW */
         <div className="space-y-4">
           {/* Filters Bar */}
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
             {/* Search Input */}
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by patient name, body part, condition..."
-                className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:border-blue-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500/10"
+                className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm focus:border-blue-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500/10"
               />
             </div>
 
@@ -371,7 +371,7 @@ export const ScanResults: React.FC = () => {
               <select
                 value={selectedScanType}
                 onChange={(e) => setSelectedScanType(e.target.value)}
-                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-hidden"
+                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
               >
                 <option value="all">All Modalities</option>
                 <option value="X-ray">X-ray</option>
@@ -383,7 +383,7 @@ export const ScanResults: React.FC = () => {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-hidden"
+                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
               >
                 <option value="all">All Statuses</option>
                 <option value="completed">Completed</option>
@@ -394,7 +394,7 @@ export const ScanResults: React.FC = () => {
               <select
                 value={selectedPriority}
                 onChange={(e) => setSelectedPriority(e.target.value)}
-                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-hidden"
+                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
               >
                 <option value="all">All Priorities</option>
                 <option value="routine">Routine</option>
@@ -405,10 +405,10 @@ export const ScanResults: React.FC = () => {
           </div>
 
           {/* Table Container */}
-          <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50/80 text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                <thead className="bg-slate-50/80 dark:bg-slate-800/60 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
                   <tr>
                     <th className="px-6 py-3.5">Scan ID</th>
                     <th className="px-6 py-3.5">Patient</th>
@@ -419,61 +419,61 @@ export const ScanResults: React.FC = () => {
                     <th className="px-6 py-3.5 text-right">View Detail</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {scans.map((scan: MedicalScan) => {
                     const topFinding = scan.findings[0];
                     return (
                       <tr
                         key={scan.id}
                         onClick={() => handleSelectScan(scan)}
-                        className="hover:bg-slate-50/80 transition-colors cursor-pointer group"
+                        className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group"
                       >
-                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-600 group-hover:text-blue-600">
+                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-600 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                           {scan.id}
                         </td>
                         <td className="px-6 py-4">
-                          <div className="font-semibold text-slate-900">{scan.patientName}</div>
-                          <div className="text-xs text-slate-400">{new Date(scan.scanDate).toLocaleDateString()}</div>
+                          <div className="font-semibold text-slate-900 dark:text-white">{scan.patientName}</div>
+                          <div className="text-xs text-slate-400 dark:text-slate-500">{new Date(scan.scanDate).toLocaleDateString()}</div>
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
-                            <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">
+                            <span className="rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-xs font-semibold text-slate-700 dark:text-slate-300 border border-slate-200/50 dark:border-slate-700">
                               {scan.scanType}
                             </span>
-                            <span className="text-slate-600 text-xs font-medium">{scan.bodyPart}</span>
+                            <span className="text-slate-600 dark:text-slate-400 text-xs font-medium">{scan.bodyPart}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
                           {topFinding ? (
                             <div className="flex items-center gap-2">
                               {getSeverityBadge(topFinding.severity)}
-                              <span className="text-xs text-slate-700 font-medium truncate max-w-xs">
+                              <span className="text-xs text-slate-700 dark:text-slate-300 font-medium truncate max-w-xs">
                                 {topFinding.condition}
                               </span>
                             </div>
                           ) : (
-                            <span className="text-xs text-slate-400">None detected</span>
+                            <span className="text-xs text-slate-400 dark:text-slate-500">None detected</span>
                           )}
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
-                            <div className="w-16 h-2 rounded-full bg-slate-100 overflow-hidden">
+                            <div className="w-16 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                               <div
                                 className="h-full bg-blue-600 rounded-full"
                                 style={{ width: `${scan.confidenceScore}%` }}
                               />
                             </div>
-                            <span className="text-xs font-bold text-slate-700">{scan.confidenceScore}%</span>
+                            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{scan.confidenceScore}%</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
                           <span
                             className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider ${
                               scan.priority === 'critical'
-                                ? 'bg-rose-100 text-rose-700'
+                                ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200/40 dark:border-rose-900/50'
                                 : scan.priority === 'urgent'
-                                ? 'bg-amber-100 text-amber-700'
-                                : 'bg-slate-100 text-slate-600'
+                                ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200/40 dark:border-amber-900/50'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/50 dark:border-slate-700'
                             }`}
                           >
                             {scan.priority}
@@ -485,7 +485,7 @@ export const ScanResults: React.FC = () => {
                               e.stopPropagation();
                               handleSelectScan(scan);
                             }}
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 group-hover:border-blue-300 group-hover:text-blue-600 shadow-2xs cursor-pointer"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 group-hover:border-blue-300 dark:group-hover:border-blue-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 shadow-2xs cursor-pointer"
                           >
                             <Eye className="h-3.5 w-3.5" /> Inspect
                           </button>
@@ -497,7 +497,7 @@ export const ScanResults: React.FC = () => {
               </table>
 
               {scans.length === 0 && !isLoading && (
-                <div className="p-12 text-center text-slate-400">
+                <div className="p-12 text-center text-slate-400 dark:text-slate-500">
                   <p className="text-sm">No scans match the specified query filters.</p>
                 </div>
               )}
@@ -508,80 +508,80 @@ export const ScanResults: React.FC = () => {
 
       {/* Clinical Report Printable Modal */}
       {showReportModal && selectedScan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+          <div className="w-full max-w-2xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <FileCheck className="h-6 w-6 text-blue-600" />
+                <FileCheck className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">MedAI Diagnostic Report</h3>
-                  <p className="text-xs text-slate-500">Official Multimodal Radiologic Analysis Record</p>
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base">MedAI Diagnostic Report</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Official Multimodal Radiologic Analysis Record</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowReportModal(false)}
-                className="rounded-lg p-1 text-slate-400 hover:text-slate-600 cursor-pointer"
+                className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs text-slate-700">
-              <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+              <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
                 <div>
-                  <span className="font-bold block text-slate-900">PATIENT:</span>
+                  <span className="font-bold block text-slate-900 dark:text-white">PATIENT:</span>
                   {selectedScan.patientName} (ID: {selectedScan.patientId})
                 </div>
                 <div>
-                  <span className="font-bold block text-slate-900">STUDY DATE:</span>
+                  <span className="font-bold block text-slate-900 dark:text-white">STUDY DATE:</span>
                   {new Date(selectedScan.scanDate).toLocaleString()}
                 </div>
                 <div>
-                  <span className="font-bold block text-slate-900">EXAMINATION:</span>
+                  <span className="font-bold block text-slate-900 dark:text-white">EXAMINATION:</span>
                   {selectedScan.scanType} — {selectedScan.bodyPart}
                 </div>
                 <div>
-                  <span className="font-bold block text-slate-900">TRIAGE PRIORITY:</span>
-                  <span className="uppercase font-bold">{selectedScan.priority}</span>
+                  <span className="font-bold block text-slate-900 dark:text-white">TRIAGE PRIORITY:</span>
+                  <span className="uppercase font-bold text-blue-600 dark:text-blue-400">{selectedScan.priority}</span>
                 </div>
               </div>
 
               <div>
-                <h4 className="font-bold text-slate-900 uppercase text-[11px] tracking-wider mb-2">
+                <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[11px] tracking-wider mb-2">
                   AI Computed Findings & Certainty:
                 </h4>
                 <div className="space-y-2">
                   {selectedScan.findings.map((f) => (
-                    <div key={f.id} className="p-3 rounded-lg border border-slate-200 bg-white">
-                      <div className="flex justify-between font-bold text-slate-900">
+                    <div key={f.id} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80">
+                      <div className="flex justify-between font-bold text-slate-900 dark:text-white">
                         <span>{f.condition}</span>
-                        <span>{f.confidence}% Confidence</span>
+                        <span className="text-blue-600 dark:text-blue-400">{f.confidence}% Confidence</span>
                       </div>
-                      <p className="text-slate-600 mt-1">{f.description}</p>
+                      <p className="text-slate-600 dark:text-slate-300 mt-1">{f.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h4 className="font-bold text-slate-900 uppercase text-[11px] tracking-wider mb-2">
+                <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[11px] tracking-wider mb-2">
                   Attending Radiologist Impression:
                 </h4>
-                <div className="p-3 rounded-lg border border-slate-200 bg-slate-50 italic">
+                <div className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 italic text-slate-700 dark:text-slate-300">
                   {selectedScan.radiologistNotes || 'No notes signed yet.'}
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-200 flex justify-between text-[11px] text-slate-400">
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-between text-[11px] text-slate-400 dark:text-slate-500">
                 <span>Signed by: {selectedScan.reviewedBy || 'Dr. Alan Mitchell, MD'}</span>
                 <span>SHA-256 Digital Verification Hash: #7F841B92D0</span>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 onClick={() => setShowReportModal(false)}
-                className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
+                className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer"
               >
                 Close
               </button>

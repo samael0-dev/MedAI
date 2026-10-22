@@ -14,6 +14,7 @@ from fastapi.responses import JSONResponse
 from api.admin import router as admin_router
 from api.detection import router as detection_router
 from api.research import router as research_router
+from api.auth import router as auth_router
 from config import settings
 from database import init_db
 from services.scan_analyzer import scan_analyzer
@@ -79,6 +80,7 @@ app.add_middleware(
 )
 
 # Register API Routers
+app.include_router(auth_router, prefix="/api/auth", tags=["Staff Authentication & Access"])
 app.include_router(detection_router, prefix="/api/detection", tags=["Radiology & Detection"])
 app.include_router(admin_router, prefix="/api/admin", tags=["Clinical Administration & Scheduling"])
 app.include_router(research_router, prefix="/api/research", tags=["Genomics & Research Engine"])

@@ -4,6 +4,7 @@ Exports all SQLAlchemy ORM models and enumeration classes for the healthcare dia
 """
 
 from database import Base
+from .user import User, UserRole
 from .patient import Patient
 from .scan import MedicalScan, ScanType, AnalysisStatus
 from .appointment import Appointment, AppointmentStatus
@@ -12,6 +13,8 @@ from .research import ResearchProject, GeneticData, DiseaseTrajectory
 
 __all__ = [
     "Base",
+    "User",
+    "UserRole",
     "Patient",
     "MedicalScan",
     "ScanType",

@@ -36,6 +36,12 @@ from .admin import (
     StaffMemberLoad,
     WorkloadStatsResponse,
 )
+from .auth import (
+    UserRegisterRequest,
+    UserLoginRequest,
+    UserResponse,
+    TokenResponse,
+)
 from .research import (
     ResearchProjectBase,
     ResearchProjectCreate,

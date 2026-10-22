@@ -9,10 +9,12 @@ import { AdminPanel } from './pages/AdminPanel';
 import { DrugChecker } from './pages/DrugChecker';
 import { Scheduling } from './pages/Scheduling';
 import { ResearchExplorer } from './pages/ResearchExplorer';
+import { Login } from './pages/Login';
 
 export const App: React.FC = () => {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="scan-upload" element={<ScanUpload />} />

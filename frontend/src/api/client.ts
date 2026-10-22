@@ -13,6 +13,10 @@ import type {
   ScanFilters,
   AppointmentFilters,
   Drug,
+  AuthUser,
+  LoginCredentials,
+  RegisterCredentials,
+  AuthResponse,
 } from '../types';
 
 export const apiClient = axios.create({
@@ -21,6 +25,15 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+// Request interceptor: attach JWT bearer token if stored
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('medai_token');
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 apiClient.interceptors.response.use(
@@ -914,5 +927,33 @@ export async function getDetectionStats(): Promise<DetectionStats[]> {
     return res.data;
   } catch {
     return MOCK_DETECTION_STATS;
+  }
+}
+
+// -------------------------------------------------------------
+// Authentication Endpoints
+// -------------------------------------------------------------
+
+export async function loginUser(credentials: LoginCredentials): Promise<AuthResponse> {
+  const res = await apiClient.post<AuthResponse>('/auth/login', credentials);
+  return res.data;
+}
+
+export async function registerUser(credentials: RegisterCredentials): Promise<AuthUser> {
+  const res = await apiClient.post<AuthUser>('/auth/register', credentials);
+  return res.data;
+}
+
+export async function fetchCurrentUser(): Promise<AuthUser> {
+  const res = await apiClient.get<AuthUser>('/auth/me');
+  return res.data;
+}
+
+export async function logoutUser(): Promise<{ message: string; status: string }> {
+  try {
+    const res = await apiClient.post<{ message: string; status: string }>('/auth/logout');
+    return res.data;
+  } catch {
+    return { message: 'Logged out', status: 'ok' };
   }
 }

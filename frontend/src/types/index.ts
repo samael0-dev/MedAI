@@ -179,3 +179,35 @@ export interface AppointmentFilters {
   status?: string;
   date?: string;
 }
+
+export type UserRole = 'admin' | 'doctor' | 'radiologist' | 'researcher' | 'nurse';
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  full_name: string;
+  role: UserRole;
+  department?: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterCredentials {
+  email: string;
+  password: string;
+  full_name: string;
+  role?: string;
+  department?: string;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  token_type: string;
+  expires_in_minutes: number;
+  user: AuthUser;
+}

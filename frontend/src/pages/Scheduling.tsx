@@ -2,17 +2,11 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Calendar as CalendarIcon,
-  Clock,
-  User,
   Plus,
   Filter,
   AlertTriangle,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   X,
   Stethoscope,
-  Sparkles,
 } from 'lucide-react';
 import { getAppointments, createAppointment, getPatients } from '../api/client';
 import { useToast } from '../context/ToastContext';
@@ -38,7 +32,7 @@ export const Scheduling: React.FC = () => {
   const [formNotes, setFormNotes] = useState('');
 
   // Queries
-  const { data: appointments = [], isLoading } = useQuery({
+  const { data: appointments = [] } = useQuery({
     queryKey: ['appointments', selectedDepartment],
     queryFn: () => getAppointments({ department: selectedDepartment }),
   });

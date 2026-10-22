@@ -5,8 +5,8 @@ longitudinal disease trajectory predictions, and biomarker correlations.
 """
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 # --- Research Projects ---
@@ -17,7 +17,19 @@ class ResearchProjectBase(BaseModel):
     disease_type: str = Field(..., min_length=2, max_length=100)
     status: str = Field(default="ACTIVE", max_length=50)
     principal_investigator: str = Field(..., min_length=2, max_length=255)
-    start_date: date
+    start_date: Union[date, datetime, str]
+
+    @field_validator("start_date", mode="before")
+    @classmethod
+    def parse_start_date(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            try:
+                return datetime.fromisoformat(v.split("T")[0]).date()
+            except Exception:
+                return v
+        elif isinstance(v, datetime):
+            return v.date()
+        return v
 
 
 class ResearchProjectCreate(ResearchProjectBase):
@@ -63,6 +75,16 @@ class GeneticAnalysisRequest(BaseModel):
     custom_variants: Optional[List[Dict[str, Any]]] = Field(
         None, description="Optional raw variant list for ad-hoc analysis"
     )
+    genes: Optional[List[Dict[str, Any]]] = Field(None, description="Alias for custom_variants")
+    analysis_type: Optional[str] = Field("differential_expression", description="Analysis type")
+
+    @model_validator(mode="before")
+    @classmethod
+    def resolve_genes(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "genes" in data and not data.get("custom_variants"):
+                data["custom_variants"] = data["genes"]
+        return data
 
 
 class GeneticAnalysisResponse(BaseModel):
@@ -74,6 +96,22 @@ class GeneticAnalysisResponse(BaseModel):
     pathway_alterations: List[str]
     pharmacogenomic_implications: List[str]
     summary: str
+    results: Optional[Dict[str, Any]] = None
+    analysis: Optional[Dict[str, Any]] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def set_results_alias(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "results" not in data:
+                data["results"] = {
+                    "total_variants": data.get("total_variants_analyzed", 0),
+                    "high_risk": data.get("high_risk_mutations", []),
+                    "pathways": data.get("pathway_alterations", []),
+                }
+            if "analysis" not in data:
+                data["analysis"] = data["results"]
+        return data
 
 
 # --- Disease Trajectory ---
@@ -81,10 +119,11 @@ class DiseaseTrajectoryRequest(BaseModel):
     """Request to compute longitudinal disease modeling and prognosis."""
     patient_id: int
     disease_type: str = Field(..., min_length=2, max_length=100)
-    stage: str = Field(..., min_length=1, max_length=50)
-    biomarkers: Dict[str, float] = Field(
-        default_factory=dict, description="Biomarker concentration levels (e.g. CRP, PSA, LDH)"
+    stage: Optional[str] = Field("Stage I", max_length=50)
+    biomarkers: Optional[Union[Dict[str, float], Dict[str, Any]]] = Field(
+        default_factory=dict, description="Biomarker concentration levels"
     )
+    time_points_months: Optional[List[int]] = None
 
 
 class DiseaseTrajectoryResponse(BaseModel):
@@ -114,11 +153,24 @@ class BiomarkerAnalysisResponse(BaseModel):
 class ClinicalTrialMatchRequest(BaseModel):
     """Patient profiling query for clinical trial eligibility."""
     patient_id: Optional[int] = None
-    condition: str = Field(..., description="Target pathology or condition")
+    condition: Optional[str] = Field(None, description="Target pathology or condition")
+    diagnosis: Optional[str] = Field(None, description="Alias for condition")
     stage: Optional[str] = None
     biomarkers: Optional[Dict[str, Any]] = None
     age: Optional[int] = Field(None, ge=0, le=125)
     gender: Optional[str] = None
+    prior_treatments: Optional[List[str]] = None
+    comorbidities: Optional[List[str]] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def resolve_condition(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if not data.get("condition") and data.get("diagnosis"):
+                data["condition"] = data["diagnosis"]
+            elif not data.get("condition"):
+                data["condition"] = "general"
+        return data
 
 
 class ClinicalTrialMatchItem(BaseModel):
@@ -138,3 +190,11 @@ class ClinicalTrialMatchResponse(BaseModel):
     condition: str
     total_matches: int
     matches: List[ClinicalTrialMatchItem]
+    trials: Optional[List[ClinicalTrialMatchItem]] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def set_trials_alias(cls, data: Any) -> Any:
+        if isinstance(data, dict) and "matches" in data and "trials" not in data:
+            data["trials"] = data["matches"]
+        return data

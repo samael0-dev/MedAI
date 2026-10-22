@@ -3,7 +3,7 @@
 Validation and response models for radiology uploads, status checks, and AI findings.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from models.scan import AnalysisStatus, ScanType
@@ -48,7 +48,7 @@ class ScanAnalysisResult(BaseModel):
     detailed_probabilities: Dict[str, float]
     heatmap_available: bool = False
     clinical_recommendation: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class DetectionStatsResponse(BaseModel):

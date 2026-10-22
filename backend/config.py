@@ -32,7 +32,7 @@ class Settings(BaseSettings):
 
     # Database Configuration
     DATABASE_URL: str = Field(
-        default="postgresql://medai:medai@localhost:5432/medai",
+        default="sqlite+aiosqlite:///./medai.db",
         description="Database connection URL",
     )
 

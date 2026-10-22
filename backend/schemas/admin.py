@@ -5,8 +5,8 @@ clinical note NLP extraction, and department workload analytics.
 """
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from models.appointment import AppointmentStatus
 from models.drug import InteractionSeverity
 
@@ -17,9 +17,19 @@ class AppointmentBase(BaseModel):
     patient_id: int = Field(..., description="Target patient ID")
     doctor_name: str = Field(..., min_length=2, max_length=255, description="Physician name")
     department: str = Field(..., min_length=2, max_length=100, description="Department name")
-    scheduled_time: datetime = Field(..., description="Appointment ISO datetime")
+    scheduled_time: Union[datetime, str] = Field(..., description="Appointment ISO datetime")
     duration_minutes: int = Field(default=30, ge=5, le=480, description="Visit duration in minutes")
     notes: Optional[str] = Field(None, description="Pre-visit clinical notes")
+
+    @field_validator("scheduled_time", mode="before")
+    @classmethod
+    def parse_scheduled_time(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            try:
+                return datetime.fromisoformat(v)
+            except Exception:
+                return v
+        return v
 
 
 class AppointmentCreate(AppointmentBase):
@@ -123,9 +133,19 @@ class DrugInteractionCheckResponse(BaseModel):
 # --- Clinical Notes NLP ---
 class ClinicalNoteRequest(BaseModel):
     """Request payload containing unstructured clinician notes."""
-    raw_text: str = Field(..., min_length=10, description="Unstructured medical transcription/note")
+    raw_text: Optional[str] = Field(None, description="Unstructured medical transcription/note")
+    text: Optional[str] = Field(None, description="Alias for raw_text")
     patient_id: Optional[int] = Field(None, description="Associated patient ID if known")
     encounter_type: Optional[str] = Field("Consultation", description="Encounter specialty or setting")
+
+    @model_validator(mode="before")
+    @classmethod
+    def resolve_text_fields(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            content = data.get("raw_text") or data.get("text")
+            data["raw_text"] = content
+            data["text"] = content
+        return data
 
 
 class ClinicalNoteResponse(BaseModel):
@@ -134,9 +154,17 @@ class ClinicalNoteResponse(BaseModel):
     encounter_type: str
     summary: str
     extracted_entities: Dict[str, List[str]]
+    entities: Optional[Dict[str, List[str]]] = None
     icd10_codes: List[Dict[str, str]]
     recommended_actions: List[str]
     processing_time_ms: float
+
+    @model_validator(mode="before")
+    @classmethod
+    def set_entities_alias(cls, data: Any) -> Any:
+        if isinstance(data, dict) and "extracted_entities" in data and "entities" not in data:
+            data["entities"] = data["extracted_entities"]
+        return data
 
 
 # --- Staff Workload Statistics ---

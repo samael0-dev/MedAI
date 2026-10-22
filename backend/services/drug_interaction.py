@@ -285,6 +285,23 @@ class DrugInteractionService:
         key = self._normalize_key(drug_a, drug_b)
         return self.interactions_kb.get(key)
 
+    def check_interaction_by_name(
+        self, drug_a: str, drug_b: str
+    ) -> Optional[Dict[str, Any]]:
+        """Lookup interaction between two drugs by generic/brand name."""
+        info = self.get_interaction_severity(drug_a, drug_b)
+        if not info:
+            return None
+        sev = info.get("severity")
+        severity_val = sev.value if hasattr(sev, "value") else str(sev)
+        return {
+            "drug_a": drug_a,
+            "drug_b": drug_b,
+            "severity": severity_val,
+            "description": info.get("description", ""),
+            "recommendation": info.get("recommendation", ""),
+        }
+
     async def check_interactions_by_ids(
         self, drug_ids: List[int], session: AsyncSession
     ) -> List[Dict[str, Any]]:

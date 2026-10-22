@@ -139,7 +139,7 @@ async def analyze_genetics(payload: GeneticAnalysisRequest, db: AsyncSession = D
 @router.post(
     "/disease-trajectory",
     response_model=DiseaseTrajectoryResponse,
-    status_code=status.HTTP_201_CREATED,
+    status_code=status.HTTP_200_OK,
     summary="Compute disease trajectory",
     description="Calculates longitudinal progression timeline and multi-year prognostic curves.",
 )

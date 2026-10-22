@@ -58,12 +58,20 @@ class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
+_db_initialized = False
+
+
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """FastAPI dependency yielding an async database session.
 
     Ensures proper transaction rollback on unhandled exceptions and cleans up
     the session context when requests terminate.
     """
+    global _db_initialized
+    if not _db_initialized:
+        await init_db()
+        _db_initialized = True
+
     async with AsyncSessionLocal() as session:
         try:
             yield session

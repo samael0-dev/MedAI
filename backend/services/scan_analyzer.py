@@ -103,6 +103,14 @@ class ScanAnalyzer:
             # Generate fallback blank image to prevent pipeline crash
             return np.zeros((224, 224, 3), dtype=np.uint8)
 
+    def _preprocess_for_model(self, image: Any) -> np.ndarray:
+        """Preprocess an image or numpy array for model ingestion."""
+        if isinstance(image, np.ndarray):
+            return image
+        if isinstance(image, Image.Image):
+            return np.array(image.convert("RGB"))
+        return self._preprocess_image(image)
+
     def load_and_preprocess(self, file_path: Union[str, Path]) -> np.ndarray:
         """Detect file format and convert to standard image array."""
         ext = str(file_path).lower()

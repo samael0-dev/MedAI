@@ -19,30 +19,63 @@ class SchedulingService:
 
     def detect_conflicts(
         self,
-        new_start: datetime,
-        duration_minutes: int,
-        existing_appointments: List[Appointment],
+        new_start_or_appt: Any,
+        duration_or_existing: Any = 30,
+        existing_appointments: Optional[List[Any]] = None,
         exclude_appointment_id: Optional[int] = None,
-    ) -> List[Appointment]:
+    ) -> List[Any]:
         """Detect any temporal overlaps with existing appointments for the same clinician.
 
-        Appointments conflict if:
-            new_start < existing_end AND new_end > existing_start
+        Supports both:
+            detect_conflicts(new_start, duration_minutes, existing_appointments)
+            detect_conflicts(new_appt_dict_or_obj, existing_list)
         """
-        conflicts: List[Appointment] = []
+        if isinstance(new_start_or_appt, dict):
+            new_start = new_start_or_appt.get("scheduled_time")
+            duration_minutes = new_start_or_appt.get("duration_minutes", 30)
+            existing_list = duration_or_existing if isinstance(duration_or_existing, list) else []
+        elif not isinstance(new_start_or_appt, datetime) and hasattr(new_start_or_appt, "scheduled_time"):
+            new_start = getattr(new_start_or_appt, "scheduled_time")
+            duration_minutes = getattr(new_start_or_appt, "duration_minutes", 30)
+            existing_list = duration_or_existing if isinstance(duration_or_existing, list) else []
+        else:
+            new_start = new_start_or_appt
+            duration_minutes = duration_or_existing if isinstance(duration_or_existing, int) else 30
+            existing_list = existing_appointments or []
+
+        if isinstance(new_start, str):
+            new_start = datetime.fromisoformat(new_start)
+
+        conflicts: List[Any] = []
         new_end = new_start + timedelta(minutes=duration_minutes)
 
-        for appt in existing_appointments:
-            if exclude_appointment_id and appt.id == exclude_appointment_id:
+        for appt in existing_list:
+            if isinstance(appt, dict):
+                appt_id = appt.get("id")
+                appt_status = appt.get("status")
+                appt_start = appt.get("scheduled_time")
+                appt_dur = appt.get("duration_minutes", 30)
+            else:
+                appt_id = getattr(appt, "id", None)
+                appt_status = getattr(appt, "status", None)
+                appt_start = getattr(appt, "scheduled_time", None)
+                appt_dur = getattr(appt, "duration_minutes", 30)
+
+            if exclude_appointment_id and appt_id == exclude_appointment_id:
                 continue
-            if appt.status == AppointmentStatus.CANCELLED:
+            if appt_status == AppointmentStatus.CANCELLED or appt_status == "CANCELLED":
                 continue
 
-            existing_start = appt.scheduled_time
-            existing_end = existing_start + timedelta(minutes=appt.duration_minutes)
+            if isinstance(appt_start, str):
+                appt_start = datetime.fromisoformat(appt_start)
+
+            if not appt_start:
+                continue
+
+            existing_end = appt_start + timedelta(minutes=appt_dur)
 
             # Check overlap
-            if new_start < existing_end and new_end > existing_start:
+            if new_start < existing_end and new_end > appt_start:
                 conflicts.append(appt)
 
         return conflicts

@@ -190,3 +190,23 @@ def predict(
         "is_abnormal": primary_finding != "No Tumor",
         "has_weights": bool(has_weights),
     }
+
+
+class BrainMRIModel:
+    """High-level model wrapper for Brain MRI classification."""
+
+    def __init__(self, weights_path: Optional[str] = None):
+        self.weights_path = weights_path
+        self.model = load_model(weights_path)
+
+    def predict_demo(self, image: Any) -> Dict[str, Any]:
+        """Run demo inference without requiring trained weights."""
+        if not isinstance(image, torch.Tensor):
+            image = torch.from_numpy(np.asarray(image)).float()
+        return predict(image, model=self.model, weights_path=None)
+
+    def predict(self, image: Any) -> Dict[str, Any]:
+        """Run standard inference."""
+        if not isinstance(image, torch.Tensor):
+            image = torch.from_numpy(np.asarray(image)).float()
+        return predict(image, model=self.model, weights_path=self.weights_path)

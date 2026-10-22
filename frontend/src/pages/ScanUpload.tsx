@@ -4,15 +4,11 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import {
   UploadCloud,
   FileText,
-  AlertCircle,
   Activity,
   Layers,
   Sparkles,
   Camera,
-  CheckCircle2,
   X,
-  User,
-  ShieldAlert,
 } from 'lucide-react';
 import { getPatients, uploadScan } from '../api/client';
 import { useToast } from '../context/ToastContext';

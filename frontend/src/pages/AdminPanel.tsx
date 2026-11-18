@@ -36,6 +36,7 @@ export const AdminPanel: React.FC = () => {
     queryKey: ['workloadStats'],
     queryFn: getWorkloadStats,
   });
+  const safeWorkload = Array.isArray(workload) ? workload : [];
 
   // Clinical NLP Mutation
   const summarizeMutation = useMutation({
@@ -318,7 +319,7 @@ export const AdminPanel: React.FC = () => {
 
           <div className="h-64 sm:h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={workload} margin={{ top: 10, right: 20, left: -10, bottom: 20 }}>
+              <BarChart data={safeWorkload} margin={{ top: 10, right: 20, left: -10, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
                 <XAxis dataKey="department" tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <YAxis tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />

@@ -91,7 +91,8 @@ export const ResearchExplorer: React.FC = () => {
   ];
 
   // Convert genetic data for scatter plot
-  const scatterPoints = geneticData.map((g, idx) => ({
+  const safeGeneticData = Array.isArray(geneticData) ? geneticData : [];
+  const scatterPoints = safeGeneticData.map((g, idx) => ({
     x: idx + 1,
     y: g.expressionLevel,
     gene: g.gene,
@@ -100,13 +101,14 @@ export const ResearchExplorer: React.FC = () => {
   }));
 
   // Trajectory points formatted
-  const trajectoryChartData = trajectory?.timepoints.map((tp) => ({
+  const safeTimepoints = Array.isArray(trajectory?.timepoints) ? trajectory.timepoints : [];
+  const trajectoryChartData = safeTimepoints.map((tp) => ({
     month: `M${tp.month}`,
     actual: tp.score,
     predicted: tp.predictedScore || tp.score,
     upper: tp.confidenceUpper,
     lower: tp.confidenceLower,
-  })) || [];
+  }));
 
   const getStatusBadge = (status: ResearchProject['status']) => {
     switch (status) {

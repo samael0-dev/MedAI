@@ -240,7 +240,7 @@ export const ScanUpload: React.FC = () => {
                       key={level}
                       type="button"
                       onClick={() => setPriority(level)}
-                      className={`capitalize py-2.5 px-3 rounded-xl text-xs font-semibold border-2 transition-all text-center ${
+                      className={`capitalize py-2 sm:py-2.5 px-2 sm:px-3 rounded-xl text-[11px] sm:text-xs font-semibold border-2 transition-all text-center cursor-pointer ${
                         isSelected
                           ? level === 'critical'
                             ? 'border-rose-600 bg-rose-600 text-white'
@@ -384,18 +384,18 @@ export const ScanUpload: React.FC = () => {
         )}
 
         {/* Submit Actions */}
-        <div className="flex items-center justify-end gap-3 pt-2">
+        <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2">
           <button
             type="button"
             onClick={() => navigate('/scan-results')}
-            className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            className="w-full sm:w-auto rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-center cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isProcessing || !selectedFile}
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isProcessing ? (
               <>

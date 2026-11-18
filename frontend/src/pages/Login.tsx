@@ -261,7 +261,7 @@ export const Login: React.FC = () => {
                 setMode('login');
                 setErrorMessage('');
               }}
-              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+              className={`flex-1 py-2 px-1 sm:px-3 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer truncate ${
                 mode === 'login'
                   ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -277,13 +277,13 @@ export const Login: React.FC = () => {
                 setOtpStep('request');
                 if (email && !otpEmail) setOtpEmail(email);
               }}
-              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`flex-1 py-2 px-1 sm:px-3 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 truncate ${
                 mode === 'otp'
                   ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <KeyRound className="h-3.5 w-3.5 text-blue-500" />
+              <KeyRound className="h-3.5 w-3.5 text-blue-500 shrink-0" />
               <span>Email OTP</span>
             </button>
             <button
@@ -292,13 +292,13 @@ export const Login: React.FC = () => {
                 setMode('register');
                 setErrorMessage('');
               }}
-              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+              className={`flex-1 py-2 px-1 sm:px-3 text-[11px] sm:text-xs font-semibold rounded-lg transition-all cursor-pointer truncate ${
                 mode === 'register'
                   ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              Register Clinician
+              Register
             </button>
           </div>
 
@@ -578,11 +578,11 @@ export const Login: React.FC = () => {
             <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-2">
               One-Click Demo Clinician Access:
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('dr.house@hospital.org', 'DiagnosticsPassword1!')}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
               >
                 <Stethoscope className="h-3.5 w-3.5 text-blue-500" />
                 <span>Dr. House (Physician)</span>
@@ -590,7 +590,7 @@ export const Login: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('dr.watson@hospital.org', 'HospitalPassword123!')}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer"
               >
                 <Stethoscope className="h-3.5 w-3.5 text-emerald-500" />
                 <span>Dr. Watson (Radiologist)</span>
@@ -598,7 +598,7 @@ export const Login: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('nurse.clara@hospital.org', 'ClinicalPassword123!')}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-purple-300 dark:hover:border-purple-600 hover:bg-purple-50/50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-purple-300 dark:hover:border-purple-600 hover:bg-purple-50/50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
               >
                 <User className="h-3.5 w-3.5 text-purple-500" />
                 <span>Clara Oswald (Nurse)</span>

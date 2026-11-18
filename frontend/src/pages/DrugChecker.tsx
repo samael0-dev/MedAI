@@ -252,7 +252,7 @@ export const DrugChecker: React.FC = () => {
                 : 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-900/60 text-emerald-900 dark:text-emerald-200'
             }`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-start sm:items-center gap-3">
               {interactions.length > 0 ? (
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 text-white font-bold">
                   <AlertTriangle className="h-6 w-6" />

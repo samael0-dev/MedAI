@@ -327,7 +327,7 @@ export const ResearchExplorer: React.FC = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="min-w-full text-center border-collapse text-xs">
+            <table className="min-w-[480px] sm:min-w-full text-center border-collapse text-xs">
               <thead>
                 <tr>
                   <th className="p-2 text-left font-bold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-750">
@@ -498,7 +498,7 @@ export const ResearchExplorer: React.FC = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
                   <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Principal Investigator:</span>
                   <span className="font-bold text-slate-800 dark:text-slate-200">{selectedProject.leadResearcher}</span>
@@ -524,11 +524,11 @@ export const ResearchExplorer: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col-reverse sm:flex-row justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setSelectedProject(null)}
-                className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 text-center cursor-pointer"
               >
                 Close
               </button>
@@ -538,7 +538,7 @@ export const ResearchExplorer: React.FC = () => {
                   setSelectedProject(null);
                   showToast(`Protocol ${selectedProject.id} documentation exported.`, 'success');
                 }}
-                className="px-4 py-2 rounded-xl bg-blue-600 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-blue-600 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 text-center cursor-pointer"
               >
                 Export Study Dossier
               </button>

@@ -266,7 +266,7 @@ export const Dashboard: React.FC = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
             {displayPieData.map((item) => (
               <div key={item.name} className="flex items-center gap-2">
                 <span className="h-3 w-3 rounded-md" style={{ backgroundColor: item.color }} />
@@ -352,7 +352,7 @@ export const Dashboard: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-sm min-w-[720px]">
             <thead className="bg-slate-50/80 dark:bg-slate-800/60 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
               <tr>
                 <th className="px-6 py-3.5">Scan ID</th>

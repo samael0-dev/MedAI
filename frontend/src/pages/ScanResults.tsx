@@ -135,7 +135,7 @@ export const ScanResults: React.FC = () => {
       {selectedScan ? (
         /* DETAIL VIEW */
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <button
               onClick={() => {
                 setSelectedScan(null);
@@ -297,7 +297,7 @@ export const ScanResults: React.FC = () => {
                       key={finding.id}
                       className="rounded-xl border border-slate-200/70 dark:border-slate-750 dark:border-slate-700 p-4 bg-slate-50/50 dark:bg-slate-800/40 space-y-2 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors"
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div className="flex items-center gap-2">
                           <h4 className="font-semibold text-sm text-slate-900 dark:text-white">{finding.condition}</h4>
                           {finding.location && (
@@ -328,7 +328,7 @@ export const ScanResults: React.FC = () => {
 
               {/* Radiologist Notes Editor */}
               <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <h3 className="font-bold text-slate-900 dark:text-white text-base">Radiologist Impression & Sign-off</h3>
                   <span className="text-xs text-slate-400 dark:text-slate-500">Official Clinical Record</span>
                 </div>
@@ -376,11 +376,11 @@ export const ScanResults: React.FC = () => {
             </div>
 
             {/* Filter Dropdowns */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <select
                 value={selectedScanType}
                 onChange={(e) => setSelectedScanType(e.target.value)}
-                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
               >
                 <option value="all">All Modalities</option>
                 <option value="X-ray">X-ray</option>
@@ -392,7 +392,7 @@ export const ScanResults: React.FC = () => {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
               >
                 <option value="all">All Statuses</option>
                 <option value="completed">Completed</option>
@@ -403,7 +403,7 @@ export const ScanResults: React.FC = () => {
               <select
                 value={selectedPriority}
                 onChange={(e) => setSelectedPriority(e.target.value)}
-                className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-hidden"
               >
                 <option value="all">All Priorities</option>
                 <option value="routine">Routine</option>
@@ -416,7 +416,7 @@ export const ScanResults: React.FC = () => {
           {/* Table Container */}
           <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
+              <table className="w-full text-left text-sm min-w-[760px]">
                 <thead className="bg-slate-50/80 dark:bg-slate-800/60 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
                   <tr>
                     <th className="px-6 py-3.5">Scan ID</th>
@@ -536,7 +536,7 @@ export const ScanResults: React.FC = () => {
             </div>
 
             <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
-              <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
                 <div>
                   <span className="font-bold block text-slate-900 dark:text-white">PATIENT:</span>
                   {selectedScan.patientName} (ID: {selectedScan.patientId})

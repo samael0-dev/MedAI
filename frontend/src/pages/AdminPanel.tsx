@@ -261,7 +261,7 @@ export const AdminPanel: React.FC = () => {
                 {summaryResult.differentialDiagnosis.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start justify-between p-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60"
+                    className="flex flex-col sm:flex-row sm:items-start justify-between p-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 gap-2"
                   >
                     <div>
                       <span className="font-bold text-slate-900 dark:text-slate-100">{item.condition}</span>
@@ -316,7 +316,7 @@ export const AdminPanel: React.FC = () => {
             </button>
           </div>
 
-          <div className="h-72 w-full">
+          <div className="h-64 sm:h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={workload} margin={{ top: 10, right: 20, left: -10, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />

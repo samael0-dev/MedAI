@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Search,
@@ -18,6 +19,7 @@ import { useToast } from '../context/ToastContext';
 import type { Patient, Prescription, DrugInteraction } from '../types';
 
 export const PatientRecords: React.FC = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
@@ -222,7 +224,11 @@ export const PatientRecords: React.FC = () => {
                 </span>
                 <button
                   type="button"
-                  className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedPatient(patient);
+                  }}
+                  className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1 cursor-pointer"
                 >
                   View Chart <ChevronRight className="h-3.5 w-3.5" />
                 </button>
@@ -254,12 +260,26 @@ export const PatientRecords: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => setSelectedPatient(null)}
-                className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
-              >
-                <X className="h-5 w-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedPatient(null);
+                    navigate('/scheduling');
+                  }}
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-blue-200 dark:border-blue-800/80 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors cursor-pointer"
+                >
+                  <Calendar className="h-3.5 w-3.5" /> Book Encounter
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPatient(null)}
+                  className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                  aria-label="Close dialog"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             {/* Drug Interaction Alerts Warning (if any) */}
@@ -413,10 +433,20 @@ export const PatientRecords: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">{scan.confidenceScore}% AI Confidence</span>
+                      <span className="font-semibold text-slate-700 dark:text-slate-300 hidden sm:inline">{scan.confidenceScore}% AI Confidence</span>
                       <span className="rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 text-[10px] font-bold">
                         {scan.status}
                       </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedPatient(null);
+                          navigate(`/scan-results?id=${scan.id}`);
+                        }}
+                        className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/60 transition-colors shadow-2xs cursor-pointer"
+                      >
+                        Inspect Scan &rarr;
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -443,9 +473,21 @@ export const PatientRecords: React.FC = () => {
                         With {apt.doctorName} on {apt.date} at {apt.time}
                       </p>
                     </div>
-                    <span className="rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/40 dark:border-blue-900/50 px-2.5 py-0.5 font-semibold text-[10px]">
-                      {apt.status}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/40 dark:border-blue-900/50 px-2.5 py-0.5 font-semibold text-[10px]">
+                        {apt.status}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedPatient(null);
+                          navigate('/scheduling');
+                        }}
+                        className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-0.5 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/60 transition-colors shadow-2xs cursor-pointer"
+                      >
+                        Manage &rarr;
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {patientAppointments.length === 0 && (

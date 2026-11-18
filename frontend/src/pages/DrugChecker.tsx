@@ -124,9 +124,38 @@ export const DrugChecker: React.FC = () => {
       {/* Drug Selection Section */}
       <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs space-y-6">
         <div>
-          <label className="text-sm font-semibold text-slate-900 dark:text-white block mb-2">
-            Selected Medications for Analysis ({selectedDrugs.length})
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-semibold text-slate-900 dark:text-white">
+              Selected Medications for Analysis ({selectedDrugs.length})
+            </label>
+            <div className="flex items-center gap-2">
+              {selectedDrugs.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedDrugs([]);
+                    setInteractions([]);
+                    setHasRunCheck(false);
+                  }}
+                  className="text-xs text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
+                >
+                  Clear All
+                </button>
+              )}
+              {selectedDrugs.length < 2 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedDrugs([MOCK_DRUGS[4], MOCK_DRUGS[2], MOCK_DRUGS[7]]);
+                    setHasRunCheck(false);
+                  }}
+                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium cursor-pointer"
+                >
+                  Load High-Risk Sample (Warfarin + Aspirin)
+                </button>
+              )}
+            </div>
+          </div>
           <div className="flex flex-wrap gap-2.5 min-h-12 items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
             {selectedDrugs.map((drug) => (
               <span
@@ -187,15 +216,17 @@ export const DrugChecker: React.FC = () => {
         </div>
 
         {/* Action Button */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
           <span className="text-xs text-slate-500 dark:text-slate-400">
-            Evaluates bidirectional interactions across FDA and EMA pharmacopoeia databases.
+            {selectedDrugs.length < 2
+              ? 'Select at least 2 medications from above or click Quick Add to screen for interactions.'
+              : 'Evaluates bidirectional interactions across FDA and EMA pharmacopoeia databases.'}
           </span>
           <button
             type="button"
             onClick={handleCheckInteractions}
             disabled={isChecking || selectedDrugs.length < 2}
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700 transition-all disabled:opacity-50 cursor-pointer"
+            className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/25 hover:bg-blue-700 transition-all disabled:opacity-50 cursor-pointer self-start sm:self-auto"
           >
             {isChecking ? (
               <>

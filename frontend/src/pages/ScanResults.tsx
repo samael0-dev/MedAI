@@ -264,6 +264,15 @@ export const ScanResults: React.FC = () => {
                       {selectedScan.confidenceScore}%
                     </span>
                   </div>
+                  <div className="col-span-2 sm:col-span-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => navigate('/patients')}
+                      className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      View Patient Record & History &rarr;
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

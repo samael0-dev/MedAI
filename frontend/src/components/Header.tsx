@@ -52,13 +52,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const notifications = [
+  const [notifications, setNotifications] = useState([
     {
       id: 1,
       title: 'Critical finding flagged',
       description: 'Patient James Kowalski CT scan reveals 14mm solitary nodule',
       time: '12m ago',
       type: 'critical',
+      unread: true,
+      link: '/scan-results',
     },
     {
       id: 2,
@@ -66,6 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       description: 'Eleanor Vance chest X-ray confidence 94.2% (Pneumonia)',
       time: '45m ago',
       type: 'info',
+      unread: true,
+      link: '/scan-results',
     },
     {
       id: 3,
@@ -73,8 +77,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       description: 'Warfarin + Aspirin co-prescription flagged for review',
       time: '2h ago',
       type: 'warning',
+      unread: true,
+      link: '/drug-checker',
     },
-  ];
+  ]);
+
+  const unreadCount = notifications.filter((n) => n.unread).length;
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,13 +145,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative rounded-xl border border-slate-200 dark:border-slate-700 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="relative rounded-xl border border-slate-200 dark:border-slate-700 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
             aria-label="View notifications"
           >
             <Bell className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-xs">
-              3
-            </span>
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-xs">
+                {unreadCount}
+              </span>
+            )}
           </button>
 
           {showNotifications && (
@@ -151,21 +161,44 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2">
                   <h4 className="font-semibold text-slate-900 dark:text-slate-100 text-sm">Clinical Alerts</h4>
-                  <span className="rounded-full bg-rose-100 dark:bg-rose-950/60 px-2 py-0.5 text-[11px] font-semibold text-rose-700 dark:text-rose-400 border border-rose-200/50 dark:border-rose-900/50">
-                    3 New
-                  </span>
+                  {unreadCount > 0 ? (
+                    <span className="rounded-full bg-rose-100 dark:bg-rose-950/60 px-2 py-0.5 text-[11px] font-semibold text-rose-700 dark:text-rose-400 border border-rose-200/50 dark:border-rose-900/50">
+                      {unreadCount} New
+                    </span>
+                  ) : (
+                    <span className="rounded-full bg-emerald-100 dark:bg-emerald-950/60 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/50">
+                      All caught up
+                    </span>
+                  )}
                 </div>
-                <button
-                  onClick={() => setShowNotifications(false)}
-                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                >
-                  Mark all read
-                </button>
+                {unreadCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })))}
+                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium cursor-pointer"
+                  >
+                    Mark all read
+                  </button>
+                )}
               </div>
 
               <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-80 overflow-y-auto mt-2">
                 {notifications.map((item) => (
-                  <div key={item.id} className="py-3 hover:bg-slate-50/80 dark:hover:bg-slate-800/60 px-2 rounded-xl transition-colors">
+                  <div
+                    key={item.id}
+                    onClick={() => {
+                      setNotifications((prev) =>
+                        prev.map((n) => (n.id === item.id ? { ...n, unread: false } : n))
+                      );
+                      setShowNotifications(false);
+                      navigate(item.link);
+                    }}
+                    className={`py-3 px-2 rounded-xl transition-colors cursor-pointer ${
+                      item.unread
+                        ? 'bg-blue-50/50 dark:bg-blue-950/30 hover:bg-slate-100/80 dark:hover:bg-slate-800/80'
+                        : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/60 opacity-80'
+                    }`}
+                  >
                     <div className="flex items-start gap-2.5">
                       {item.type === 'critical' ? (
                         <div className="h-2 w-2 mt-1.5 rounded-full bg-rose-500 shrink-0"></div>
@@ -188,11 +221,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
               <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
                 <button
+                  type="button"
                   onClick={() => {
                     setShowNotifications(false);
                     navigate('/scan-results');
                   }}
-                  className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                  className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer"
                 >
                   View All Scan Results →
                 </button>

@@ -21,8 +21,16 @@ import type {
   OtpResponseData,
 } from '../types';
 
+const getBaseURL = () => {
+  if (typeof window !== 'undefined') {
+    // If running in browser, proxy through current host or use VITE_API_URL if set
+    return (import.meta as any).env?.VITE_API_URL || 'http://localhost:8000/api';
+  }
+  return 'http://localhost:8000/api';
+};
+
 export const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: getBaseURL(),
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

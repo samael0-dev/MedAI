@@ -6,6 +6,8 @@ import {
   TrendingUp,
   Search,
   Sparkles,
+  X,
+  FileText,
 } from 'lucide-react';
 import {
   ScatterChart,
@@ -25,6 +27,7 @@ import type { ResearchProject, DiseaseTrajectory } from '../types';
 
 export const ResearchExplorer: React.FC = () => {
   const { showToast } = useToast();
+  const [selectedProject, setSelectedProject] = useState<ResearchProject | null>(null);
 
   // Queries
   const { data: projects = [] } = useQuery({
@@ -174,6 +177,17 @@ export const ResearchExplorer: React.FC = () => {
                       style={{ width: `${proj.completionPercentage}%` }}
                     />
                   </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 font-mono">IRB Protocol Active</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProject(proj)}
+                    className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:border-blue-300 dark:hover:border-blue-700 transition-colors shadow-2xs cursor-pointer"
+                  >
+                    View Protocol &rarr;
+                  </button>
                 </div>
               </div>
             </div>
@@ -427,7 +441,7 @@ export const ResearchExplorer: React.FC = () => {
                 Top Matches ({matchedTrials.length}):
               </span>
               {matchedTrials.map((t) => (
-                <div key={t.id} className="p-3 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/40 space-y-1">
+                <div key={t.id} className="p-3 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/40 space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-blue-900 dark:text-blue-300">{t.title}</span>
                     <span className="rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-800/50 font-bold px-2 py-0.5 text-[10px]">
@@ -435,12 +449,103 @@ export const ResearchExplorer: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-600 dark:text-slate-400">{t.criteria}</p>
+                  <div className="flex justify-end pt-1">
+                    <button
+                      type="button"
+                      onClick={() => showToast(`Candidate patient registered for enrollment screening in protocol ${t.id}`, 'success')}
+                      className="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-semibold text-[11px] shadow-xs hover:bg-blue-700 transition-colors cursor-pointer"
+                    >
+                      Enroll Candidate &rarr;
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
+
+      {/* Research Protocol Detail Modal */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-2xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-5 max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <div>
+                  <span className="text-xs font-mono font-bold text-slate-400 dark:text-slate-500">{selectedProject.id}</span>
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base leading-snug">
+                    {selectedProject.title}
+                  </h3>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedProject(null)}
+                className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-1">Protocol Overview & Objectives</h4>
+                <p className="text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
+                  {selectedProject.description}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                  <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Principal Investigator:</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200">{selectedProject.leadResearcher}</span>
+                </div>
+                <div className="p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                  <span className="text-slate-400 dark:text-slate-500 block mb-0.5">IRB Ethics Status:</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">Approved & Active</span>
+                </div>
+                <div className="p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                  <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Target Cohort:</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200">{selectedProject.participantsCount} / {selectedProject.targetParticipants}</span>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 dark:text-white">Cohort Inclusion Criteria:</h4>
+                <ul className="list-disc pl-5 space-y-1 text-slate-600 dark:text-slate-300">
+                  <li>Informed consent verified per GCP guidelines and institutional review board protocol</li>
+                  <li>Confirmed histopathology or radiomic signature matching targeted indication</li>
+                  <li>Age between 18 and 80 years with baseline laboratory clearance</li>
+                  <li>No concurrent investigational therapies within preceding 30-day window</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedProject(null)}
+                className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedProject(null);
+                  showToast(`Protocol ${selectedProject.id} documentation exported.`, 'success');
+                }}
+                className="px-4 py-2 rounded-xl bg-blue-600 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
+              >
+                Export Study Dossier
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

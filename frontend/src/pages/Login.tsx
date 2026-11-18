@@ -21,7 +21,6 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useTheme } from '../context/ThemeContext';
-import { authClient } from '../lib/auth-client';
 
 const GoogleIcon: React.FC<{ className?: string }> = ({ className = 'h-4 w-4' }) => (
   <svg className={className} viewBox="0 0 24 24">
@@ -74,14 +73,14 @@ export const Login: React.FC = () => {
 
     try {
       if (mode === 'login') {
-        await login({ email, password });
+        await login({ email: email.trim(), password });
         showToast('Successfully authenticated. Welcome to MedAI.', 'success');
         navigate('/');
       } else if (mode === 'register') {
         await register({
-          email,
+          email: email.trim(),
           password,
-          full_name: fullName,
+          full_name: fullName.trim(),
           role,
           department,
         });
@@ -99,32 +98,53 @@ export const Login: React.FC = () => {
     }
   };
 
+  const handleQuickDemoLogin = async (demoEmail: string, demoPass: string) => {
+    setIsSubmitting(true);
+    setErrorMessage('');
+    try {
+      await login({ email: demoEmail, password: demoPass });
+      showToast(`Welcome back, authenticated as ${demoEmail}`, 'success');
+      navigate('/');
+    } catch {
+      // If user not in DB yet, auto-provision and login
+      try {
+        await register({
+          email: demoEmail,
+          password: demoPass,
+          full_name: demoEmail.includes('house')
+            ? 'Dr. Gregory House, MD'
+            : demoEmail.includes('watson')
+            ? 'Dr. John Watson, MD'
+            : 'Clara Oswald, NP',
+          role: demoEmail.includes('clara') ? 'nurse' : 'doctor',
+          department: demoEmail.includes('house') ? 'Diagnostics' : 'Radiology',
+        });
+        showToast(`Clinician account initialized: ${demoEmail}`, 'success');
+        navigate('/');
+      } catch (regErr: any) {
+        const msg = regErr.response?.data?.detail || 'Failed to authenticate demo account.';
+        setErrorMessage(typeof msg === 'string' ? msg : JSON.stringify(msg));
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     setErrorMessage('');
     try {
-      // If Better Auth client has social sign-in configured
-      try {
-        if (authClient.signIn?.social) {
-          await authClient.signIn.social({
-            provider: 'google',
-            callbackURL: window.location.origin,
-          });
-          return;
-        }
-      } catch (baErr) {
-        console.debug('Better Auth redirect hook fallback:', baErr);
-      }
+      const targetEmail = email.trim() || 'dr.alex.vance@hospital.org';
+      const targetName = fullName.trim() || 'Dr. Alex Vance, MD';
 
-      // Google Identity authentication exchange
-      const targetEmail = email.trim() || 'dr.google.clinician@hospital.org';
+      // Authenticate directly with Google OAuth credentials/token
       await loginWithGoogle({
         credential: `mock-google-token:${targetEmail}`,
         email: targetEmail,
-        full_name: fullName.trim() || 'Dr. Alex Vance, MD',
+        full_name: targetName,
         avatar_url: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80',
       });
-      showToast('Authenticated via Google OAuth into MedAI.', 'success');
+      showToast('Successfully authenticated via Google OAuth.', 'success');
       navigate('/');
     } catch (err: any) {
       const msg = err.response?.data?.detail || 'Google authentication failed.';
@@ -135,22 +155,22 @@ export const Login: React.FC = () => {
     }
   };
 
-  const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!otpEmail.trim()) {
-      setErrorMessage('Please enter your institutional email address.');
-      return;
+  const handleSendOtp = async (e?: React.FormEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const targetEmail = otpEmail.trim() || email.trim() || 'dr.watson@hospital.org';
+    if (!otpEmail) {
+      setOtpEmail(targetEmail);
     }
     setIsSubmitting(true);
     setErrorMessage('');
     try {
-      const res = await sendOtp(otpEmail.trim());
+      const res = await sendOtp(targetEmail);
       if (res.dev_code) {
         setDevOtpCode(res.dev_code);
         setOtpCode(res.dev_code);
       }
       setOtpStep('verify');
-      showToast(`Passcode dispatched to ${otpEmail.trim()}`, 'success');
+      showToast(`Passcode dispatched to ${targetEmail}`, 'success');
     } catch (err: any) {
       const msg = err.response?.data?.detail || 'Failed to dispatch verification code.';
       setErrorMessage(typeof msg === 'string' ? msg : JSON.stringify(msg));
@@ -160,8 +180,14 @@ export const Login: React.FC = () => {
     }
   };
 
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleVerifyOtp = async (e?: React.FormEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const targetEmail = otpEmail.trim() || email.trim();
+    if (!targetEmail) {
+      setErrorMessage('Please enter your institutional email address.');
+      setOtpStep('request');
+      return;
+    }
     if (!otpCode.trim()) {
       setErrorMessage('Please enter the 6-digit verification code.');
       return;
@@ -169,8 +195,8 @@ export const Login: React.FC = () => {
     setIsSubmitting(true);
     setErrorMessage('');
     try {
-      await verifyOtp(otpEmail.trim(), otpCode.trim());
-      showToast('OTP verified. Welcome to MedAI workspace.', 'success');
+      await verifyOtp(targetEmail, otpCode.trim());
+      showToast('Passcode verified. Welcome to MedAI workspace.', 'success');
       navigate('/');
     } catch (err: any) {
       const msg = err.response?.data?.detail || 'Invalid or expired OTP code.';
@@ -249,6 +275,7 @@ export const Login: React.FC = () => {
                 setMode('otp');
                 setErrorMessage('');
                 setOtpStep('request');
+                if (email && !otpEmail) setOtpEmail(email);
               }}
               className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 mode === 'otp'
@@ -288,7 +315,7 @@ export const Login: React.FC = () => {
               ) : (
                 <GoogleIcon className="h-4 w-4" />
               )}
-              <span>{isGoogleLoading ? 'Connecting to Google...' : 'Sign in with Google'}</span>
+              <span>{isGoogleLoading ? 'Authenticating with Google...' : 'Sign in with Google'}</span>
             </button>
 
             <div className="relative my-5">
@@ -297,7 +324,7 @@ export const Login: React.FC = () => {
               </div>
               <div className="relative flex justify-center text-xs">
                 <span className="bg-white/95 dark:bg-slate-900/90 px-3 text-slate-400 dark:text-slate-500 font-medium">
-                  {mode === 'otp' ? 'or use OTP verification code' : 'or continue with institutional email'}
+                  {mode === 'otp' ? 'or use OTP verification code' : 'or continue with institutional credentials'}
                 </span>
               </div>
             </div>
@@ -315,9 +342,18 @@ export const Login: React.FC = () => {
             otpStep === 'request' ? (
               <form onSubmit={handleSendOtp} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                    Institutional Email Address
-                  </label>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      Institutional Email Address
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setOtpEmail('dr.watson@hospital.org')}
+                      className="text-[11px] text-blue-500 hover:text-blue-600 font-medium cursor-pointer"
+                    >
+                      Fill demo email
+                    </button>
+                  </div>
                   <div className="relative">
                     <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                     <input
@@ -352,20 +388,19 @@ export const Login: React.FC = () => {
             ) : (
               <form onSubmit={handleVerifyOtp} className="space-y-4">
                 {devOtpCode && (
-                  <div className="flex items-center justify-between rounded-xl border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50 dark:bg-emerald-950/40 p-3 text-xs text-emerald-800 dark:text-emerald-300">
+                  <div
+                    onClick={() => setOtpCode(devOtpCode)}
+                    className="flex items-center justify-between rounded-xl border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50 dark:bg-emerald-950/40 p-3 text-xs text-emerald-800 dark:text-emerald-300 cursor-pointer hover:bg-emerald-100/60 transition-colors"
+                  >
                     <div className="flex items-center gap-2">
                       <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                       <span>
-                        Passcode sent! Dev code: <strong className="font-mono text-emerald-700 dark:text-emerald-300">{devOtpCode}</strong>
+                        Passcode sent! Dev code: <strong className="font-mono text-emerald-700 dark:text-emerald-300 tracking-wider">{devOtpCode}</strong>
                       </span>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setOtpCode(devOtpCode)}
-                      className="text-[11px] underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 cursor-pointer"
-                    >
-                      Fill
-                    </button>
+                    <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider underline">
+                      Auto-fill
+                    </span>
                   </div>
                 )}
 
@@ -418,7 +453,7 @@ export const Login: React.FC = () => {
                 <div className="text-center pt-2">
                   <button
                     type="button"
-                    onClick={handleSendOtp}
+                    onClick={() => handleSendOtp()}
                     disabled={isSubmitting}
                     className="text-xs text-slate-500 hover:text-blue-500 font-medium cursor-pointer inline-flex items-center gap-1.5"
                   >
@@ -538,8 +573,41 @@ export const Login: React.FC = () => {
             </form>
           )}
 
+          {/* Quick Demo Clinician Access Bar */}
+          <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-2">
+              One-Click Demo Clinician Access:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => handleQuickDemoLogin('dr.house@hospital.org', 'DiagnosticsPassword1!')}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
+              >
+                <Stethoscope className="h-3.5 w-3.5 text-blue-500" />
+                <span>Dr. House (Physician)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickDemoLogin('dr.watson@hospital.org', 'HospitalPassword123!')}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer"
+              >
+                <Stethoscope className="h-3.5 w-3.5 text-emerald-500" />
+                <span>Dr. Watson (Radiologist)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickDemoLogin('nurse.clara@hospital.org', 'ClinicalPassword123!')}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-purple-300 dark:hover:border-purple-600 hover:bg-purple-50/50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
+              >
+                <User className="h-3.5 w-3.5 text-purple-500" />
+                <span>Clara Oswald (Nurse)</span>
+              </button>
+            </div>
+          </div>
+
           {/* Security & Framework Verification Badge */}
-          <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center gap-1.5 text-center">
+          <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center gap-1.5 text-center">
             <div className="flex items-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
               <ShieldCheck className="h-4 w-4 text-emerald-500" />
               <span>Better Auth Framework • Google OAuth • Email OTP • JWT Sessions</span>

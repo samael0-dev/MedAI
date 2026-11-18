@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Calendar as CalendarIcon,
@@ -13,6 +14,7 @@ import { useToast } from '../context/ToastContext';
 import type { Appointment } from '../types';
 
 export const Scheduling: React.FC = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
@@ -240,12 +242,33 @@ export const Scheduling: React.FC = () => {
                             "{apt.notes}"
                           </p>
                         )}
+
+                        <div className="pt-2 border-t border-slate-100/80 dark:border-slate-700/60 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => navigate('/patients')}
+                            className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                          >
+                            View Patient Chart &rarr;
+                          </button>
+                        </div>
                       </div>
                     );
                   })}
 
                   {slotApts.length === 0 && (
-                    <div className="py-2 text-xs text-slate-300 dark:text-slate-600 italic">No appointments in this slot</div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormTime(slot);
+                        setFormDate(selectedDate);
+                        setShowCreateModal(true);
+                      }}
+                      className="py-2.5 px-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-950/40 text-xs text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1.5 transition-all cursor-pointer group"
+                    >
+                      <Plus className="h-3.5 w-3.5 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
+                      <span>Available • Book {slot}</span>
+                    </button>
                   )}
                 </div>
               </div>

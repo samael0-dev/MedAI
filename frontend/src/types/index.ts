@@ -188,8 +188,36 @@ export interface AuthUser {
   full_name: string;
   role: UserRole;
   department?: string;
+  auth_provider?: string;
+  avatar_url?: string;
   is_active: boolean;
   created_at: string;
+}
+
+export interface GoogleAuthPayload {
+  credential?: string;
+  email?: string;
+  full_name?: string;
+  avatar_url?: string;
+  client_id?: string;
+}
+
+export interface SendOtpPayload {
+  email: string;
+  purpose?: string;
+}
+
+export interface VerifyOtpPayload {
+  email: string;
+  otp: string;
+}
+
+export interface OtpResponseData {
+  status: string;
+  message: string;
+  email: string;
+  expires_in_seconds: number;
+  dev_code?: string;
 }
 
 export interface LoginCredentials {

@@ -94,6 +94,23 @@ async def init_db() -> None:
             # Import models dynamically inside function to ensure table registration
             import models  # noqa: F401
             await conn.run_sync(Base.metadata.create_all)
+
+            # Auto-migrate columns for SQLite/Postgres if missing
+            def _migrate_columns(sync_conn):
+                try:
+                    res = sync_conn.exec_driver_sql("PRAGMA table_info(users)").fetchall()
+                    existing_cols = {r[1] for r in res}
+                    if existing_cols:
+                        if "auth_provider" not in existing_cols:
+                            sync_conn.exec_driver_sql("ALTER TABLE users ADD COLUMN auth_provider VARCHAR(50) DEFAULT 'local'")
+                        if "google_id" not in existing_cols:
+                            sync_conn.exec_driver_sql("ALTER TABLE users ADD COLUMN google_id VARCHAR(255)")
+                        if "avatar_url" not in existing_cols:
+                            sync_conn.exec_driver_sql("ALTER TABLE users ADD COLUMN avatar_url VARCHAR(500)")
+                except Exception as mig_err:
+                    logger.debug("Column migration skipped or table inspection deferred: %s", mig_err)
+
+            await conn.run_sync(_migrate_columns)
             logger.info("Database schemas verified and initialized successfully.")
 
         # Seed initial drug catalog and demo clinical records if table is empty

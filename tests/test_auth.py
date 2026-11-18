@@ -148,6 +148,103 @@ class TestAuthenticationAPI:
         assert response.json()["status"] == "ok"
 
 
+class TestGoogleAndOTPAuthentication:
+    """Test Google OAuth and One-Time Passcode (OTP) authentication flows."""
+
+    def test_google_auth_new_user(self, client: TestClient):
+        """Test Google authentication auto-provisions and returns token for a new clinician."""
+        payload = {
+            "credential": "mock-google-token:dr.strange@hospital.org",
+            "full_name": "Dr. Stephen Strange, MD",
+        }
+        response = client.post("/api/auth/google", json=payload)
+        assert response.status_code == 200
+        data = response.json()
+        assert "access_token" in data
+        assert data["token_type"] == "bearer"
+        assert data["user"]["email"] == "dr.strange@hospital.org"
+        assert data["user"]["auth_provider"] == "google"
+
+        # Verify access token works with protected endpoint
+        token = data["access_token"]
+        me_res = client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert me_res.status_code == 200
+        assert me_res.json()["email"] == "dr.strange@hospital.org"
+
+    def test_google_auth_existing_user(self, client: TestClient):
+        """Test Google authentication recognizes previously registered user."""
+        # dr.house already exists from previous test
+        payload = {
+            "credential": "mock-google-token:dr.house@hospital.org",
+        }
+        response = client.post("/api/auth/google", json=payload)
+        assert response.status_code == 200
+        data = response.json()
+        assert data["user"]["email"] == "dr.house@hospital.org"
+
+    def test_google_auth_invalid_token(self, client: TestClient):
+        """Test Google authentication returns 401 on invalid credential with no email."""
+        response = client.post("/api/auth/google", json={"credential": ""})
+        assert response.status_code == 401
+
+    def test_otp_send_and_verify_flow(self, client: TestClient):
+        """Test requesting an OTP and verifying it to receive a session token."""
+        email = "radiologist.watson@hospital.org"
+
+        # Step 1: Send OTP
+        send_res = client.post("/api/auth/otp/send", json={"email": email})
+        assert send_res.status_code == 200
+        send_data = send_res.json()
+        assert send_data["status"] == "ok"
+        assert send_data["email"] == email
+        otp_code = send_data.get("dev_code")
+        assert otp_code is not None
+        assert len(otp_code) == 6
+
+        # Step 2: Verify OTP
+        verify_res = client.post(
+            "/api/auth/otp/verify",
+            json={"email": email, "otp": otp_code},
+        )
+        assert verify_res.status_code == 200
+        verify_data = verify_res.json()
+        assert "access_token" in verify_data
+        assert verify_data["user"]["email"] == email
+        assert verify_data["user"]["auth_provider"] == "otp"
+
+        # Step 3: Access protected endpoint with returned token
+        token = verify_data["access_token"]
+        me_res = client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert me_res.status_code == 200
+        assert me_res.json()["email"] == email
+
+    def test_otp_verify_invalid_code(self, client: TestClient):
+        """Test submitting incorrect OTP returns 401 unauthorized."""
+        email = "test.wrong.code@hospital.org"
+        client.post("/api/auth/otp/send", json={"email": email})
+
+        # Submit deliberately wrong OTP
+        verify_res = client.post(
+            "/api/auth/otp/verify",
+            json={"email": email, "otp": "000000"},
+        )
+        assert verify_res.status_code == 401
+
+    def test_otp_cannot_be_reused(self, client: TestClient):
+        """Test that an OTP code cannot be verified more than once."""
+        email = "reused.otp@hospital.org"
+        send_res = client.post("/api/auth/otp/send", json={"email": email})
+        otp_code = send_res.json().get("dev_code")
+
+        # First verification succeeds
+        v1 = client.post("/api/auth/otp/verify", json={"email": email, "otp": otp_code})
+        assert v1.status_code == 200
+
+        # Second verification with same code fails
+        v2 = client.post("/api/auth/otp/verify", json={"email": email, "otp": otp_code})
+        assert v2.status_code == 401
+
+
 # Fixtures
 @pytest.fixture
 def client():

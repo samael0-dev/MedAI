@@ -17,6 +17,8 @@ import type {
   LoginCredentials,
   RegisterCredentials,
   AuthResponse,
+  GoogleAuthPayload,
+  OtpResponseData,
 } from '../types';
 
 export const apiClient = axios.create({
@@ -956,4 +958,19 @@ export async function logoutUser(): Promise<{ message: string; status: string }>
   } catch {
     return { message: 'Logged out', status: 'ok' };
   }
+}
+
+export async function loginWithGoogle(payload: GoogleAuthPayload): Promise<AuthResponse> {
+  const res = await apiClient.post<AuthResponse>('/auth/google', payload);
+  return res.data;
+}
+
+export async function sendLoginOtp(email: string, purpose: string = 'login'): Promise<OtpResponseData> {
+  const res = await apiClient.post<OtpResponseData>('/auth/otp/send', { email, purpose });
+  return res.data;
+}
+
+export async function verifyLoginOtp(email: string, otp: string): Promise<AuthResponse> {
+  const res = await apiClient.post<AuthResponse>('/auth/otp/verify', { email, otp });
+  return res.data;
 }

@@ -33,6 +33,13 @@ MedAI is a comprehensive healthcare platform that combines cutting-edge AI with 
 - **Clinical Trial Matching** — Rule-based patient-to-trial matching engine
 - **Research Visualization** — Interactive charts for survival curves, gene expression, and biomarkers
 
+### 🔐 Module 4: Authentication & Staff Access Control
+- **Better Auth Framework** — Modern TypeScript all-in-one auth framework managing sessions, JWT tokens, and SQLite database adapter
+- **Google OAuth / GIS** — One-click single sign-on for clinicians and medical staff via Google Identity Services
+- **Institutional Email OTP** — Passwordless authentication with 6-digit verification codes and automatic expiration
+- **Role-Based Access Control (RBAC)** — Granular permissions for Physician, Radiologist, Genomics Researcher, Nurse, and Administrator
+- **HIPAA Title II & HITECH Compliant** — Cryptographic SHA-256 JWT sessions and Bcrypt password salts
+
 ---
 
 ## 🚀 Quick Start
@@ -69,6 +76,10 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 cd frontend
 npm install
 npm run dev
+
+# Optional: verify Better Auth suite or start standalone auth service
+npm run test:auth     # Test Better Auth OTP, sessions & tokens
+npm run auth:server   # Start standalone Better Auth microservice on port 4000
 ```
 
 ### Access the Application

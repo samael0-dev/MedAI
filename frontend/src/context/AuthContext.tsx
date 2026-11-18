@@ -1,7 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { AuthUser, LoginCredentials, RegisterCredentials } from '../types';
-import { loginUser, registerUser, fetchCurrentUser, logoutUser } from '../api/client';
+import type { AuthUser, LoginCredentials, RegisterCredentials, GoogleAuthPayload, OtpResponseData } from '../types';
+import {
+  loginUser,
+  registerUser,
+  fetchCurrentUser,
+  logoutUser,
+  loginWithGoogle as apiLoginWithGoogle,
+  sendLoginOtp,
+  verifyLoginOtp,
+} from '../api/client';
+import { authClient } from '../lib/auth-client';
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -10,6 +19,9 @@ interface AuthContextType {
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
+  loginWithGoogle: (payload: GoogleAuthPayload) => Promise<void>;
+  sendOtp: (email: string) => Promise<OtpResponseData>;
+  verifyOtp: (email: string, otp: string) => Promise<void>;
   logout: () => void;
   setUser: (user: AuthUser | null) => void;
 }
@@ -62,8 +74,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(response.user);
       localStorage.setItem('medai_token', response.access_token);
       localStorage.setItem('medai_user', JSON.stringify(response.user));
-    } catch (err) {
-      throw err;
     } finally {
       setIsLoading(false);
     }
@@ -75,8 +85,52 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       await registerUser(credentials);
       // Automatically log in after registration
       await login({ email: credentials.email, password: credentials.password });
-    } catch (err) {
-      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loginWithGoogle = async (payload: GoogleAuthPayload) => {
+    setIsLoading(true);
+    try {
+      const response = await apiLoginWithGoogle(payload);
+      setToken(response.access_token);
+      setUser(response.user);
+      localStorage.setItem('medai_token', response.access_token);
+      localStorage.setItem('medai_user', JSON.stringify(response.user));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sendOtp = async (email: string) => {
+    // Try Better Auth client first if available, fallback to api client
+    try {
+      if (authClient.emailOtp?.sendVerificationOtp) {
+        authClient.emailOtp.sendVerificationOtp({ email, type: 'sign-in' }).catch(() => {});
+      }
+    } catch {
+      // ignore
+    }
+    return await sendLoginOtp(email);
+  };
+
+  const verifyOtp = async (email: string, otp: string) => {
+    setIsLoading(true);
+    try {
+      // Also notify Better Auth client if available
+      try {
+        if (authClient.signIn?.emailOtp) {
+          authClient.signIn.emailOtp({ email, otp }).catch(() => {});
+        }
+      } catch {
+        // ignore
+      }
+      const response = await verifyLoginOtp(email, otp);
+      setToken(response.access_token);
+      setUser(response.user);
+      localStorage.setItem('medai_token', response.access_token);
+      localStorage.setItem('medai_user', JSON.stringify(response.user));
     } finally {
       setIsLoading(false);
     }
@@ -84,6 +138,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = () => {
     logoutUser().catch(() => {});
+    authClient.signOut().catch(() => {});
     setToken(null);
     setUser(null);
     localStorage.removeItem('medai_token');
@@ -99,6 +154,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading,
         login,
         register,
+        loginWithGoogle,
+        sendOtp,
+        verifyOtp,
         logout,
         setUser,
       }}

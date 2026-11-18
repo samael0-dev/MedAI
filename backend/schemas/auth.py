@@ -36,8 +36,44 @@ class UserResponse(BaseModel):
     full_name: str
     role: str
     department: Optional[str] = None
+    auth_provider: Optional[str] = "local"
+    avatar_url: Optional[str] = None
     is_active: bool
     created_at: datetime
+
+
+class GoogleAuthRequest(BaseModel):
+    """Payload for Google OAuth / Identity Services authentication."""
+
+    credential: Optional[str] = Field(None, description="Google ID Token / Credential string")
+    email: Optional[str] = Field(None, description="Direct clinician institutional email for verified Google tokens or dev mode")
+    full_name: Optional[str] = Field(None, description="Clinician name from Google profile")
+    avatar_url: Optional[str] = Field(None, description="Google avatar / profile picture URL")
+    client_id: Optional[str] = Field(None, description="Google OAuth Client ID")
+
+
+class SendOtpRequest(BaseModel):
+    """Payload to request an institutional One-Time Passcode."""
+
+    email: str = Field(..., min_length=3, max_length=255, description="Institutional email address")
+    purpose: Optional[str] = Field(default="login", description="Purpose: login, 2fa, verify")
+
+
+class VerifyOtpRequest(BaseModel):
+    """Payload to verify an OTP and authenticate."""
+
+    email: str = Field(..., min_length=3, max_length=255, description="Institutional email address")
+    otp: str = Field(..., min_length=4, max_length=10, description="Verification passcode")
+
+
+class OtpResponse(BaseModel):
+    """Response returned upon requesting an OTP."""
+
+    status: str = "ok"
+    message: str
+    email: str
+    expires_in_seconds: int
+    dev_code: Optional[str] = None
 
 
 class TokenResponse(BaseModel):

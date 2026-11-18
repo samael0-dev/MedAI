@@ -33,6 +33,7 @@ desktop.ini
 *.sqlite3
 
 # Uploads & model weights (large files)
+uploads/
 backend/uploads/
 backend/ml/weights/*.pth
 backend/ml/weights/*.pt

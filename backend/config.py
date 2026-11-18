@@ -6,7 +6,7 @@ no hardcoded credentials in production.
 """
 
 from pathlib import Path
-from typing import List, Union
+from typing import List, Optional, Union
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -44,6 +44,19 @@ class Settings(BaseSettings):
     ALGORITHM: str = Field(default="HS256", description="JWT encryption algorithm")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(
         default=60 * 24, description="Access token expiration in minutes"
+    )
+
+    # Google Authentication & OAuth Configuration
+    GOOGLE_CLIENT_ID: Optional[str] = Field(
+        default=None, description="Google OAuth Client ID for GIS / Google Sign-In"
+    )
+    GOOGLE_CLIENT_SECRET: Optional[str] = Field(
+        default=None, description="Google OAuth Client Secret"
+    )
+
+    # One-Time Passcode (OTP) Configuration
+    OTP_EXPIRE_MINUTES: int = Field(
+        default=10, description="OTP validity window in minutes"
     )
 
     # Storage Paths

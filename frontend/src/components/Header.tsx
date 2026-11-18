@@ -208,9 +208,13 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex items-center gap-3 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/60 p-1.5 sm:px-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white font-semibold text-xs shadow-2xs">
-                {getInitials(user.full_name)}
-              </div>
+              {user.avatar_url ? (
+                <img src={user.avatar_url} alt={user.full_name} className="h-8 w-8 rounded-lg object-cover" />
+              ) : (
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white font-semibold text-xs shadow-2xs">
+                  {getInitials(user.full_name)}
+                </div>
+              )}
               <div className="hidden text-left sm:block">
                 <div className="text-xs font-semibold text-slate-900 dark:text-slate-100 leading-tight">{user.full_name}</div>
                 <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400 capitalize">{user.department || user.role}</div>
@@ -226,6 +230,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/40 dark:border-blue-800/50 capitalize">
                     {user.role}
                   </span>
+                  {user.auth_provider && (
+                    <span className="inline-block mt-1 ml-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/40 dark:border-emerald-800/50 uppercase">
+                      {user.auth_provider}
+                    </span>
+                  )}
                 </div>
                 <button
                   onClick={() => {
